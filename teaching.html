@@ -5,8 +5,156 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Teaching — Qi Wang</title>
   <link rel="stylesheet" href="assets/css/main.css" />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* 类别容器 */
+    .category-container { 
+      margin-bottom: 60px; 
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* 大标题样式 */
+    .category-header {
+      border-bottom: 2px solid #333;
+      padding-bottom: 8px;
+      margin-bottom: 30px;
+    }
+    .category-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+
+    /* 强制单列网格布局 */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    /* 课程卡片 */
+    .course-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    .course-card:hover {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    }
+
+    /* 资料折叠盒标题 */
+    .materials-box { border-top: 1px solid #f0f0f0; }
+    .materials-header { 
+      cursor: pointer; 
+      padding: 15px 20px;
+      background: #fafafa;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+      font-weight: 500;
+      color: #333;
+    }
+    .materials-header:hover { background: #f2f2f2; }
+    details > summary { list-style: none; }
+    details > summary::-webkit-details-marker { display: none; }
+    
+    /* ====== 重点优化：列表项与按钮样式 ====== */
+    .slide-list { 
+      padding: 5px 20px 20px; 
+      margin: 0;
+    }
+    
+    .slide-item { 
+      padding: 16px 0; 
+      border-bottom: 1px dashed #e8e8e8; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+    }
+    .slide-item:last-child { border-bottom: none; }
+    
+    /* 左侧文本块布局 */
+    .slide-left {
+      display: flex;
+      align-items: center;
+      gap: 15px; /* 图标与文字的间距 */
+    }
+    
+    /* 文件图标样式 */
+    .slide-icon-file {
+      color: #9ba3af;
+      font-size: 1.4rem;
+    }
+
+    .slide-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px; /* 标题与副标题的间距 */
+    }
+
+    .slide-title { 
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600; 
+      font-size: 1rem; 
+      color: #2b3a4a; /* 深灰蓝色 */
+      margin: 0;
+    }
+    
+    .slide-meta { 
+      font-size: 0.85rem; 
+      color: #717171; 
+      margin: 0;
+    }
+
+    /* 右侧操作按钮组 */
+    .slide-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* 完美还原截图的按钮样式 */
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #a67c52; /* 金棕色文字 */
+      background-color: #fdfbf7; /* 浅米色背景 */
+      border: 1px solid #d4c0a1; /* 金棕色边框 */
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .action-btn:hover {
+      background-color: #f5eedf;
+      border-color: #a67c52;
+      color: #8c653d;
+    }
+
+    /* 隐私保护提示 */
+    .custom-course-note {
+      color: #666;
+      font-style: italic;
+      padding: 30px;
+      background: #fcfcfc;
+      border: 1px dashed #ddd;
+      border-radius: 6px;
+      text-align: center;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
 
@@ -24,220 +172,187 @@
 </nav>
 
 <div class="page-wrap">
-
-  <!-- ── PAGE HERO ── -->
   <div class="page-hero">
     <div class="container fade-up">
       <div class="page-hero-content">
         <span class="section-eyebrow">Education</span>
         <h1 class="section-title">Teaching</h1>
-        <p class="page-hero-sub">课程资料</p>
+        <p class="page-hero-sub">课程大纲与资料下载 (Password Required)</p>
       </div>
     </div>
   </div>
 
-  <!-- ── COURSES ── -->
   <section class="teaching-section">
     <div class="container">
-      <div class="courses-list">
 
-        <!-- ══ COURSE 1: International Finance ══ -->
-        <div class="course-card">
-          <div class="course-header">
-            <div class="course-icon-wrap">
-              <i class="fas fa-globe-asia"></i>
-            </div>
-            <div class="course-title-block">
-              <h2 class="course-name">International Finance</h2>
-              <p class="course-cn">国际金融</p>
-              <span class="course-badge">Undergraduate · Graduate</span>
-            </div>
-          </div>
-
-          <div class="course-body">
-
-
-            <!-- ── SLIDES / MATERIALS BOX ── -->
-            <div class="materials-box">
-              <div class="materials-header">
-                <div class="materials-header-left">
-                  <i class="fas fa-folder-open"></i>
-                  <span>Course Materials</span>
-                </div>
-                <span class="materials-count">国际金融讲义</span>
+      <div class="category-container">
+        <div class="category-header">
+          <h3 class="category-title">Undergraduate Courses</h3>
+        </div>
+        <div class="courses-grid">
+          <div class="course-card">
+            <div class="course-header">
+              <div class="course-icon-wrap"><i class="fas fa-globe-asia"></i></div>
+              <div class="course-title-block">
+                <h2 class="course-name">International Finance</h2>
+                <p class="course-cn">国际金融</p>
               </div>
+            </div>
+            <details class="materials-box" open> <summary class="materials-header">
+                <span><i class="fas fa-folder-open"></i> Course Materials</span>
+                <i class="fas fa-chevron-down"></i>
+              </summary>
               <ul class="slide-list">
-
-                <!-- ── SLIDE ITEM TEMPLATE ──
-                     Replace the href="#" with your actual file link.
-                     Links can be:
-                       • Direct file URL (e.g. https://github.com/user/repo/raw/main/slides/ch1.pdf)
-                       • Google Drive share link
-                       • Any public download URL
-                     To add more slides: copy one <li class="slide-item"> block.
-                -->
-
+                
                 <li class="slide-item">
                   <div class="slide-left">
-                    <i class="fas fa-file-powerpoint slide-icon"></i>
-                    <div class="slide-info">
-                      <div class="slide-title">Chapter 1 — Introduction to International Finance</div>
-                      <div class="slide-meta">第一章 · 国际金融概论</div>
-                    </div>
-                  </div>
-                  <a href="#" class="slide-download">
-                    <!-- 将 href="#" 替换为您的课件链接 -->
-                    <i class="fas fa-download"></i> Download
-                  </a>
-                </li>
-
-                <li class="slide-item">
-                  <div class="slide-left">
-                    <i class="fas fa-file-powerpoint slide-icon"></i>
-                    <div class="slide-info">
-                      <div class="slide-title">Chapter 2 — Foreign Exchange Market</div>
-                      <div class="slide-meta">第二章 · 外汇市场</div>
-                    </div>
-                  </div>
-                  <a href="#" class="slide-download">
-                    <i class="fas fa-download"></i> Download
-                  </a>
-                </li>
-
-                <li class="slide-item">
-                  <div class="slide-left">
-                    <i class="fas fa-file-powerpoint slide-icon"></i>
+                    <i class="fas fa-file-powerpoint slide-icon-file"></i>
                     <div class="slide-info">
                       <div class="slide-title">Chapter 3 — Exchange Rate Determination</div>
                       <div class="slide-meta">第三章 · 汇率决定理论</div>
                     </div>
                   </div>
-                  <div class="slide-actions" style="display: flex; gap: 10px;">
-                    <a href="3.interest_rate_parity.html" target="_blank" rel="noopener noreferrer" class="slide-download">
+                  <div class="slide-actions">
+                    <a href="#" onclick="requirePassword(event, '3.interest_rate_parity.html', '_blank')" class="action-btn">
                       <i class="fas fa-laptop-code"></i> Interactive Lab
                     </a>
-                    
-                    <a href="assets/slides/intl_finance/Chapter3.pdf" class="slide-download" download>
+                    <a href="#" onclick="requirePassword(event, 'assets/slides/intl_finance/Chapter3.pdf', '_self')" class="action-btn">
                       <i class="fas fa-download"></i> Download
                     </a>
                   </div>
                 </li>
-
-                <li class="slide-item">
-                  <div class="slide-left">
-                    <i class="fas fa-file-powerpoint slide-icon"></i>
-                    <div class="slide-info">
-                      <div class="slide-title">Chapter 4 — Balance of Payments</div>
-                      <div class="slide-meta">第四章 · 国际收支</div>
-                    </div>
-                  </div>
-                  <a href="#" class="slide-download">
-                    <i class="fas fa-download"></i> Download
-                  </a>
-                </li>
-
-                <li class="slide-item">
-                  <div class="slide-left">
-                    <i class="fas fa-file-powerpoint slide-icon"></i>
-                    <div class="slide-info">
-                      <div class="slide-title">Chapter 5 — International Monetary System</div>
-                      <div class="slide-meta">第五章 · 国际货币体系</div>
-                    </div>
-                  </div>
-                  <a href="#" class="slide-download">
-                    <i class="fas fa-download"></i> Download
-                  </a>
-                </li>
-
-                <li class="slide-item">
-                  <div class="slide-left">
-                    <i class="fas fa-file-powerpoint slide-icon"></i>
-                    <div class="slide-info">
-                      <div class="slide-title">Chapter 6 — Open Economy Macroeconomics</div>
-                      <div class="slide-meta">第六章 · 开放经济宏观经济学</div>
-                    </div>
-                  </div>
-                  <a href="#" class="slide-download">
-                    <i class="fas fa-download"></i> Download
-                  </a>
-                </li>
-
-                <li class="slide-item">
-                  <div class="slide-left">
-                    <i class="fas fa-file-powerpoint slide-icon"></i>
-                    <div class="slide-info">
-                      <div class="slide-title">Chapter 7 — Digital Currency &amp; Fintech in International Finance</div>
-                      <div class="slide-meta">第七章 · 数字货币与国际金融科技</div>
-                    </div>
-                  </div>
-                  <a href="#" class="slide-download">
-                    <i class="fas fa-download"></i> Download
-                  </a>
-                </li>
-
-                <!--
-                  ══════════════════════════════════════════════
-                  如需添加更多章节，复制上方 <li class="slide-item">
-                  到此处，修改标题和 href 链接即可。
-                  ══════════════════════════════════════════════
-                -->
-
+                
               </ul>
-            </div><!-- /materials-box -->
-
-          </div><!-- /course-body -->
-        </div><!-- /course-card -->
-
-
-        <!-- ══ COURSE 2 PLACEHOLDER — Add more courses here ══ -->
-        <!--
-        <div class="course-card">
-          <div class="course-header">
-            <div class="course-icon-wrap"><i class="fas fa-robot"></i></div>
-            <div class="course-title-block">
-              <h2 class="course-name">AI &amp; Finance</h2>
-              <p class="course-cn">人工智能与金融</p>
-              <span class="course-badge">Graduate Seminar</span>
-            </div>
+            </details>
           </div>
-          <div class="course-body">
-            <p class="course-desc">...</p>
-            <div class="materials-box">
-              <div class="materials-header">
-                <div class="materials-header-left">
-                  <i class="fas fa-folder-open"></i>
-                  <span>Course Materials</span>
-                </div>
+          <div class="course-card">
+            <div class="course-header">
+              <div class="course-icon-wrap"><i class="fas fa-microchip"></i></div>
+              <div class="course-title-block">
+                <h2 class="course-name">Financial Technology</h2>
+                <p class="course-cn">金融科技 (FinTech)</p>
               </div>
+            </div>
+            <details class="materials-box">
+              <summary class="materials-header">
+                <span><i class="fas fa-folder-open"></i> Course Materials</span>
+                <i class="fas fa-chevron-down"></i>
+              </summary>
               <ul class="slide-list">
                 <li class="slide-item">
                   <div class="slide-left">
-                    <i class="fas fa-file-powerpoint slide-icon"></i>
+                    <i class="fas fa-file-pdf slide-icon-file"></i>
                     <div class="slide-info">
-                      <div class="slide-title">Lecture 1 — Introduction</div>
-                      <div class="slide-meta">第一讲</div>
+                      <div class="slide-title">Lecture 1 — Intro to FinTech</div>
+                      <div class="slide-meta">第一讲 · 金融科技导论</div>
                     </div>
                   </div>
-                  <a href="#" class="slide-download"><i class="fas fa-download"></i> Download</a>
+                  <div class="slide-actions">
+                    <a href="#" onclick="requirePassword(event, '#', '_self')" class="action-btn">
+                      <i class="fas fa-download"></i> Download
+                    </a>
+                  </div>
                 </li>
               </ul>
-            </div>
+            </details>
           </div>
         </div>
-        -->
+      </div>
 
-      </div><!-- /courses-list -->
-    </div><!-- /container -->
+      <div class="category-container">
+        <div class="category-header">
+          <h3 class="category-title">International Student Courses</h3>
+        </div>
+        <div class="courses-grid">
+          <div class="course-card">
+            <div class="course-header">
+              <div class="course-icon-wrap"><i class="fas fa-university"></i></div>
+              <div class="course-title-block">
+                <h2 class="course-name">Finance</h2>
+                <p class="course-cn">金融学</p>
+              </div>
+            </div>
+            <details class="materials-box">
+              <summary class="materials-header"><span><i class="fas fa-folder-open"></i> Materials</span><i class="fas fa-chevron-down"></i></summary>
+              <ul class="slide-list">
+                <li class="slide-item">
+                  <div class="slide-left">
+                    <i class="fas fa-file-alt slide-icon-file"></i>
+                    <div class="slide-info">
+                      <div class="slide-title">Notes on Asset Pricing</div>
+                      <div class="slide-meta">资产定价讲义</div>
+                    </div>
+                  </div>
+                  <div class="slide-actions">
+                    <a href="#" onclick="requirePassword(event, '#', '_self')" class="action-btn"><i class="fas fa-download"></i> Download</a>
+                  </div>
+                </li>
+              </ul>
+            </details>
+          </div>
+          <div class="course-card">
+            <div class="course-header">
+              <div class="course-icon-wrap"><i class="fas fa-chart-area"></i></div>
+              <div class="course-title-block">
+                <h2 class="course-name">Macroeconomics</h2>
+                <p class="course-cn">宏观经济学</p>
+              </div>
+            </div>
+            <details class="materials-box">
+              <summary class="materials-header"><span><i class="fas fa-folder-open"></i> Materials</span><i class="fas fa-chevron-down"></i></summary>
+              <ul class="slide-list">
+                <li class="slide-item">
+                  <div class="slide-left">
+                    <i class="fas fa-file-alt slide-icon-file"></i>
+                    <div class="slide-info">
+                      <div class="slide-title">Growth Models</div>
+                      <div class="slide-meta">经济增长模型</div>
+                    </div>
+                  </div>
+                  <div class="slide-actions">
+                    <a href="#" onclick="requirePassword(event, '#', '_self')" class="action-btn"><i class="fas fa-download"></i> Download</a>
+                  </div>
+                </li>
+              </ul>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <div class="category-container">
+        <div class="category-header">
+          <h3 class="category-title">Advanced Training Courses</h3>
+        </div>
+        <div class="custom-course-note">
+          <i class="fas fa-shield-alt"></i> Information regarding advanced and customized training programs is restricted to protect client privacy. Please contact me directly for syllabi and materials.
+          <br>
+          <span style="font-size: 0.9em; display: inline-block; margin-top: 5px;">(高级定制培训课程，不对外公开列示。)</span>
+        </div>
+      </div>
+
+    </div>
   </section>
+</div>
 
-</div><!-- /page-wrap -->
+<footer class="site-footer"><div class="container"><p>© 2026 Qi Wang · Associate Professor</p></div></footer>
 
-<footer class="site-footer">
-  <div class="container">
-    <p>© 2026 Qi Wang · Associate Professor</p>
-  </div>
-</footer>
+<script>
+  const COURSE_PASSWORD = "scu@2026"; 
 
-<script src="assets/js/main.js"></script>
+  function requirePassword(event, targetUrl, targetWindow) {
+    event.preventDefault();
+    if (targetUrl === "#") {
+      alert("资料尚未上传！\nNot uploaded yet.");
+      return;
+    }
+    let pwd = prompt("请输入课程密码以继续：\nPlease enter the password:");
+    if (pwd === COURSE_PASSWORD) {
+      if (targetWindow === '_blank') window.open(targetUrl, '_blank');
+      else window.location.href = targetUrl;
+    } else if (pwd !== null) {
+      alert("密码错误！\nIncorrect password.");
+    }
+  }
+</script>
 </body>
 </html>
