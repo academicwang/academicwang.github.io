@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中国外商投资报告2025 - 教学解读</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1a365d;
+      --secondary: #2c5282;
+      --accent: #e53e3e;
+      --gold: #d69e2e;
+      --bg-light: #f7fafc;
+      --text-dark: #1a202c;
+      --text-muted: #718096;
+      --border: #e2e8f0;
+      --success: #38a169;
+      --warning: #dd6b20;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      color: var(--text-dark);
+      background: var(--bg-light);
+    }
+    .page-hero {
+      background: linear-gradient(135deg, #1a365d 0%, #2c5282 50%, #1a365d 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    .page-hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .page-hero .source {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      background: rgba(255,255,255,0.1);
+      padding: 8px 20px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .toc {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .toc h2 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 10px;
+    }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
+    }
+    .toc-item {
+      padding: 15px;
+      background: var(--bg-light);
+      border-radius: 8px;
+      border-left: 4px solid var(--secondary);
+      transition: all 0.2s;
+    }
+    .toc-item:hover {
+      transform: translateX(5px);
+      border-left-color: var(--accent);
+    }
+    .toc-item a {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+    .toc-item .sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 35px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .section h2 {
+      color: var(--primary);
+      font-size: 1.6rem;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section h2 i {
+      color: var(--gold);
+    }
+    .section h3 {
+      color: var(--secondary);
+      font-size: 1.25rem;
+      margin: 25px 0 15px;
+      padding-left: 15px;
+      border-left: 4px solid var(--accent);
+    }
+    .section h4 {
+      color: var(--text-dark);
+      font-size: 1.1rem;
+      margin: 20px 0 12px;
+    }
+    .section p {
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+    .key-data {
+      background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+      border-radius: 12px;
+      padding: 25px;
+      margin: 20px 0;
+      border: 1px solid #bee3f8;
+    }
+    .key-data h4 {
+      color: var(--primary);
+      margin-top: 0;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+    }
+    .stat-card .number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+    .stat-card .label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background: var(--bg-light);
+    }
+    tr:hover {
+      background: #ebf8ff;
+    }
+    .highlight-box {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 5px solid var(--gold);
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .case-box {
+      background: #f0fff4;
+      border: 1px solid #9ae6b4;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .case-box h4 {
+      color: var(--success);
+      margin-top: 0;
+    }
+    .policy-box {
+      background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .policy-box h4 {
+      color: var(--secondary);
+      margin-top: 0;
+    }
+    .formula-box {
+      background: #f7fafc;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .formula-box .f-title {
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+    .f-note {
+      margin-top: 15px;
+      padding: 12px;
+      background: #d4edda;
+      border-radius: 6px;
+      color: #155724;
+      font-size: 0.95rem;
+    }
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .compare-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .compare-item h5 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      font-size: 1.05rem;
+    }
+    .compare-item ul {
+      padding-left: 20px;
+    }
+    .compare-item li {
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 12px 0;
+    }
+    .progress-wrap span:first-child {
+      min-width: 100px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .progress-bar-bg {
+      flex: 1;
+      height: 24px;
+      background: #edf2f7;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--secondary), var(--accent));
+      border-radius: 12px;
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .quiz-section {
+      background: linear-gradient(135deg, #edf2f7 0%, #e2e8f0 100%);
+      border-radius: 12px;
+      padding: 25px;
+      margin: 30px 0;
+    }
+    .quiz-section h3 {
+      color: var(--primary);
+      border: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+    .quiz-item {
+      background: white;
+      border-radius: 8px;
+      padding: 15px 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .quiz-item:hover {
+      border-color: var(--secondary);
+    }
+    .quiz-item .q {
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .quiz-item .q::before {
+      content: "Q";
+      background: var(--accent);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .quiz-item .options {
+      padding-left: 34px;
+    }
+    .quiz-item .option {
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      border-radius: 6px;
+      background: var(--bg-light);
+    }
+    .quiz-item .option.correct {
+      background: #c6f6d5;
+      border: 1px solid var(--success);
+    }
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      .page-hero h1 { font-size: 1.6rem; }
+      .section { padding: 20px; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-hero">
+    <h1><i class="fas fa-chart-line"></i> 中国外商投资报告2025</h1>
+    <p>商务部《中国外商投资报告2025》教学解读版<br>基于官方数据，系统梳理2024年中国外商投资情况</p>
+    <div class="source">
+      <i class="fas fa-book"></i> 来源：商务部《中国外商投资报告2025》| 发布日期：2025年3月
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- 目录 -->
+    <div class="toc">
+      <h2><i class="fas fa-list-ul"></i> 目录导航</h2>
+      <div class="toc-grid">
+        <div class="toc-item">
+          <a href="#chapter1"><i class="fas fa-bookmark"></i> 综合篇</a>
+          <div class="sub">外商投资总体情况与政策</div>
+        </div>
+        <div class="toc-item">
+          <a href="#chapter2"><i class="fas fa-bookmark"></i> 行业篇</a>
+          <div class="sub">健康、新能源汽车、人工智能、科技服务</div>
+        </div>
+        <div class="toc-item">
+          <a href="#chapter3"><i class="fas fa-bookmark"></i> 专题篇</a>
+          <div class="sub">投资环境比较、服务业开放政策</div>
+        </div>
+        <div class="toc-item">
+          <a href="#chapter4"><i class="fas fa-bookmark"></i> 地方篇</a>
+          <div class="sub">北京、上海、重庆等省市案例</div>
+        </div>
+        <div class="toc-item">
+          <a href="#quiz"><i class="fas fa-question-circle"></i> 课后测验</a>
+          <div class="sub">巩固学习成果</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 综合篇 -->
+    <div class="section" id="chapter1">
+      <h2><i class="fas fa-book-open"></i> 综合篇：2024年中国外商投资总体情况</h2>
+      
+      <h3>一、外商投资总体展现较强韧性</h3>
+      <div class="key-data">
+        <h4><i class="fas fa-star"></i> 核心数据</h4>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="number">1162.4</div>
+            <div class="label">亿美元 | 2024年实际使用外资</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">发展中经济体</div>
+            <div class="label">最大引资国地位</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">全球第二</div>
+            <div class="label">吸引外资规模</div>
+          </div>
+        </div>
+      </div>
+      
+      <p>2024年，在全球外国直接投资延续下行趋势的背景下，中国持续推进高水平对外开放，出台稳外资系列政策，打造"投资中国"品牌，加强对外资企业服务保障，稳步扩大制度型开放，积极营造市场化、法治化、国际化一流营商环境。</p>
+
+      <h3>二、利用外资产业结构持续优化</h3>
+      
+      <h4>1. 制造业实际使用外资占比保持稳定</h4>
+      <p>外商投资制造业领域涵盖31个行业大类和548个行业小类，制造业利用外资基础稳固。</p>
+      
+      <div class="key-data">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="number">311.2</div>
+            <div class="label">亿美元 | 制造业实际使用外资</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">26.8%</div>
+            <div class="label">占实际使用外资总额比重</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">+5.3%</div>
+            <div class="label">较2020年提高百分点</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>行业</th><th>占比</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>制造业</td><td>25.35%</td><td>实际使用外资主体</td></tr>
+            <tr><td>批发和零售业</td><td>20.81%</td><td>第二大行业</td></tr>
+            <tr><td>科学研究和技术服务业</td><td>17.11%</td><td>高技术领域</td></tr>
+            <tr><td>租赁和商务服务业</td><td>6.68%</td><td>商务服务</td></tr>
+            <tr><td>信息传输、软件和信息技术服务业</td><td>6.04%</td><td>数字化领域</td></tr>
+            <tr><td>金融业</td><td>4.66%</td><td>金融服务</td></tr>
+            <tr><td>房地产业</td><td>4.65%</td><td>稳健投资</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>2. 高技术制造业重点领域引资增长较快</h4>
+      <div class="highlight-box">
+        <p><strong>高技术制造业实际使用外资135.1亿美元</strong>，占制造业实际使用外资总额的43.4%，同比提高3.7个百分点。</p>
+        <ul style="margin-top:10px;">
+          <li>医疗仪器设备及仪器仪表制造业：同比增长<strong>93.7%</strong></li>
+          <li>计算机及办公设备制造业：同比增长<strong>21.1%</strong></li>
+        </ul>
+      </div>
+
+      <h4>3. 生产性服务业引资强劲增长</h4>
+      <div class="key-data">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="number">822.4</div>
+            <div class="label">亿美元 | 服务业实际使用外资</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">70.8%</div>
+            <div class="label">占实际使用外资总额比重</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">683.9</div>
+            <div class="label">亿美元 | 生产性服务业</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>2024年生产性服务业实际使用外资同比增长行业</caption>
+          <thead>
+            <tr><th>行业</th><th>企业个数</th><th>实际使用外资(亿美元)</th><th>同比增长</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>检验检测认证标准计量服务</td><td>108</td><td>1.2</td><td>157.9%</td></tr>
+            <tr><td>咨询与调查服务</td><td>3,157</td><td>36.9</td><td>99.9%</td></tr>
+            <tr><td>搬运、包装和代理服务</td><td>518</td><td>2.3</td><td>47.8%</td></tr>
+            <tr><td>实物租赁服务</td><td>107</td><td>8.7</td><td>37.6%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>三、主要投资来源地呈现新变化</h3>
+      
+      <h4>1. 亚洲仍是中国最大的投资来源地区</h4>
+      <div class="key-data">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="number">991.6</div>
+            <div class="label">亿美元 | 亚洲十国/地区投资</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">85.3%</div>
+            <div class="label">占实际使用外资总额比重</div>
+          </div>
+        </div>
+      </div>
+      <p><strong>亚洲十国/地区包括</strong>：中国香港、中国台湾、印度尼西亚、日本、中国澳门、马来西亚、菲律宾、新加坡、韩国和泰国。</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>2024年对华直接投资前十位来源地</caption>
+          <thead>
+            <tr><th>排名</th><th>国家/地区</th><th>金额(亿美元)</th><th>占比</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>中国香港</td><td>809.6</td><td>69.6%</td></tr>
+            <tr><td>2</td><td>新加坡</td><td>108.5</td><td>9.3%</td></tr>
+            <tr><td>3</td><td>美国</td><td>43.9</td><td>3.8%</td></tr>
+            <tr><td>4</td><td>英国</td><td>25.9</td><td>2.2%</td></tr>
+            <tr><td>5</td><td>韩国</td><td>23.9</td><td>2.1%</td></tr>
+            <tr><td>6</td><td>日本</td><td>21.3</td><td>1.8%</td></tr>
+            <tr><td>7</td><td>德国</td><td>19.6</td><td>1.7%</td></tr>
+            <tr><td>8</td><td>荷兰</td><td>18.5</td><td>1.6%</td></tr>
+            <tr><td>9</td><td>中国台湾</td><td>17.2</td><td>1.5%</td></tr>
+            <tr><td>10</td><td>法国</td><td>10.2</td><td>0.9%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>2. 部分国家对华投资增长较快</h4>
+      <div class="highlight-box">
+        <ul>
+          <li>葡萄牙对华投资：增长 <strong>416.1%</strong></li>
+          <li>爱尔兰对华投资：增长 <strong>218.9%</strong></li>
+          <li>奥地利对华投资：增长 <strong>210.8%</strong></li>
+          <li>西班牙对华投资：增长 <strong>129.9%</strong></li>
+          <li>泰国对华投资：增长 <strong>180.0%</strong></li>
+          <li>加拿大对华投资：增长 <strong>34.2%</strong></li>
+        </ul>
+      </div>
+
+      <h3>四、外商投资企业在华投资收益保持平稳</h3>
+      <div class="key-data">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="number">26.8</div>
+            <div class="label">万亿元 | 外资工业企业营业收入</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">1.8</div>
+            <div class="label">万亿元 | 利润总额</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">6.6%</div>
+            <div class="label">外资工业企业营收利润率</div>
+          </div>
+        </div>
+      </div>
+      <p>外资工业企业营收利润率为<strong>6.6%</strong>，高于全国规模以上工业企业营收利润率1.2个百分点。</p>
+
+      <div class="case-box">
+        <h4><i class="fas fa-building"></i> 案例：外资企业加码投资中国</h4>
+        <ul>
+          <li><strong>宝马集团</strong>：计划对沈阳大东工厂增加投资200亿元，实施大规模技术升级</li>
+          <li><strong>大众汽车</strong>：投资25亿欧元拓展合肥生产及创新中心</li>
+          <li><strong>沙特阿美</strong>：联手中国石化启动炼化一体化项目，总投资711亿元</li>
+        </ul>
+      </div>
+
+      <h3>五、中国外商投资政策</h3>
+      
+      <h4>1. 降低市场准入门槛</h4>
+      <div class="policy-box">
+        <h4>2024年外资准入负面清单改革</h4>
+        <ul>
+          <li>取消"出版物印刷须由中方控股"</li>
+          <li>取消"禁止投资中药饮片蒸、炒、炙、煅等炮制技术的应用及中成药保密处方产品的生产"</li>
+          <li>全国版外资准入限制措施由<strong>31条压减至29条</strong></li>
+          <li>实现<strong>制造业领域外资准入限制措施清零</strong></li>
+        </ul>
+      </div>
+
+      <h4>2. 深化重点服务业领域开放</h4>
+      <div class="highlight-box">
+        <p><strong>试点地区取消增值电信业务外资股比限制</strong></p>
+        <p>试点地区：北京、上海、海南、深圳</p>
+        <ul style="margin-top:10px;">
+          <li>互联网数据中心（IDC）</li>
+          <li>内容分发网络（CDN）</li>
+          <li>互联网接入服务（ISP）</li>
+          <li>在线数据处理与交易处理</li>
+        </ul>
+      </div>
+
+      <h4>3. 推动外商投资便利化</h4>
+      <p>全面优化营商环境，简化审批流程，提高服务效率，加强知识产权保护。</p>
+
+      <h4>4. 持续打造"投资中国"品牌</h4>
+      <p>通过举办国家级投资促进活动，提升中国作为外商理想、安全、有为投资目的地的吸引力。</p>
+
+      <h3>六、外商投资前景展望</h3>
+      <div class="compare-grid">
+        <div class="compare-item">
+          <h5><i class="fas fa-globe"></i> 世界经济增长推动力</h5>
+          <p>中国始终是世界经济增长的重要推动力量，在全球经济发展中发挥关键作用。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-door-open"></i> 高水平对外开放</h5>
+          <p>推进高水平对外开放步伐不止步，持续扩大制度型开放，以开放促改革促发展。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-chart-bar"></i> 综合优势</h5>
+          <p>超大规模市场优势、完善的产业配套、高素质人才等吸引外资的综合优势不断夯实。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-gavel"></i> 营商环境</h5>
+          <p>市场化、法治化、国际化一流营商环境持续优化，政策环境更加透明稳定可预期。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 行业篇 -->
+    <div class="section" id="chapter2">
+      <h2><i class="fas fa-industry"></i> 行业篇：重点行业投资机遇</h2>
+      
+      <h3>一、新能源汽车产业</h3>
+      
+      <h4>1. 行业发展情况</h4>
+      <div class="key-data">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="number">1650万</div>
+            <div class="label">辆 | 2025年预计销量</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">30%</div>
+            <div class="label">预计增速</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">55%</div>
+            <div class="label">预计国内市场渗透率</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-box">
+        <h4><i class="fas fa-car"></i> 典型外资投资项目</h4>
+        <ul>
+          <li><strong>东风本田/广汽本田新能源工厂</strong>：合计投资75亿元，设计产能各12万辆/年</li>
+          <li><strong>LG新能源中国总部</strong>：落户南京，统筹电池及材料研发和上下游产业链</li>
+          <li><strong>丰田燃料电池研发与生产项目</strong>：北京投产，年产能可达1万台</li>
+        </ul>
+      </div>
+
+      <h4>2. 行业投资机遇</h4>
+      <div class="compare-grid">
+        <div class="compare-item">
+          <h5><i class="fas fa-shopping-cart"></i> 消费市场持续扩容</h5>
+          <p>新能源汽车市场渗透率预计2030年达70%以上，释放电池等核心零部件市场需求。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-microchip"></i> 前沿技术应用空间广阔</h5>
+          <p>智能驾驶、固态电池等技术加快转化。L2级及以上自动驾驶功能装车率达67.8%。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-handshake"></i> 产业优势互补</h5>
+          <p>中国电动车研发周期1.6年，远优于欧美传统车企5.4年，为外资合作提供契机。</p>
+        </div>
+      </div>
+
+      <h4>3. 行业政策保障</h4>
+      <div class="policy-box">
+        <h4>重点政策支持</h4>
+        <ul>
+          <li><strong>培育消费市场</strong>：到2035年新能源汽车成为新销售车辆主流</li>
+          <li><strong>完善充电设施</strong>：75个试点县充换电设施补短板</li>
+          <li><strong>车网互动</strong>：首批9个城市V2G项目试点启动</li>
+          <li><strong>税收支持</strong>：2024-2025年免征新能源汽车车辆购置税</li>
+          <li><strong>贷款支持</strong>：新能源车贷款最高发放比例可达100%</li>
+        </ul>
+      </div>
+
+      <h3>二、人工智能产业</h3>
+      
+      <h4>1. 行业发展情况</h4>
+      <div class="key-data">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="number">2697亿</div>
+            <div class="label">元 | 2024年产业规模</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">26.2%</div>
+            <div class="label">同比增长</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">全球第二</div>
+            <div class="label">产业规模排名</div>
+          </div>
+        </div>
+      </div>
+
+      <h4>2. 行业投资机遇</h4>
+      <div class="highlight-box">
+        <p><strong>人工智能产业三大投资方向：</strong></p>
+        <ul>
+          <li><strong>基础设施层</strong>：算力芯片、数据中心、云服务</li>
+          <li><strong>算法模型层</strong>：大模型研发、AI开发平台</li>
+          <li><strong>应用场景层</strong>：智能制造、智慧城市、自动驾驶、医疗AI</li>
+        </ul>
+      </div>
+
+      <h4>3. 行业政策保障</h4>
+      <div class="policy-box">
+        <h4>政策支持体系</h4>
+        <ul>
+          <li>算力基础设施建设纳入国家战略</li>
+          <li>推动人工智能与传统产业深度融合</li>
+          <li>完善数据要素市场配置</li>
+          <li>加强国际合作与开放</li>
+        </ul>
+      </div>
+
+      <h3>三、健康产业</h3>
+      
+      <h4>行业特点与机遇</h4>
+      <div class="key-data">
+        <p><strong>健康产业作为朝阳产业，外资关注度持续提升：</strong></p>
+        <ul style="margin-top:15px;">
+          <li>医药制造：创新药研发、生物制品、医疗器械</li>
+          <li>医疗服务：高端医疗机构、健康管理、康复养老</li>
+          <li>健康消费：保健食品、功能性化妆品</li>
+        </ul>
+      </div>
+
+      <h3>四、科技服务业</h3>
+      
+      <h4>行业特点与机遇</h4>
+      <div class="key-data">
+        <p><strong>科技服务业是推动创新发展的重要力量：</strong></p>
+        <ul style="margin-top:15px;">
+          <li>研发设计服务：工业设计、技术研发外包</li>
+          <li>检验检测认证：质量检测、标准认证</li>
+          <li>知识产权服务：专利代理、技术转移</li>
+          <li>创业孵化服务：众创空间、科技企业孵化器</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 专题篇 -->
+    <div class="section" id="chapter3">
+      <h2><i class="fas fa-layer-group"></i> 专题篇：投资环境与开放政策</h2>
+      
+      <h3>一、外商直接投资环境国际比较</h3>
+      
+      <h4>中国投资环境优势</h4>
+      <div class="compare-grid">
+        <div class="compare-item">
+          <h5><i class="fas fa-users"></i> 超大规模市场</h5>
+          <p>14亿人口，内需市场规模全球第二，消费升级潜力巨大。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-cogs"></i> 完整产业体系</h5>
+          <p>联合国产业分类中全部工业门类，产业链配套完善。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-graduation-cap"></i> 人才资源优势</h5>
+          <p>受过高等教育人口超2亿，研发人员数量全球第一。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-dollar-sign"></i> 要素成本优势</h5>
+          <p>基础设施完善，物流成本低，数字化转型领先。</p>
+        </div>
+      </div>
+
+      <h3>二、中国服务业扩大开放政策</h3>
+      
+      <h4>1. 党中央、国务院高度重视</h4>
+      <div class="highlight-box">
+        <p><strong>党的二十大报告</strong>：构建优质高效的服务业新体系，推动现代服务业同先进制造业、现代农业深度融合。</p>
+        <p style="margin-top:10px;"><strong>二十届三中全会《决定》</strong>：全面实施跨境服务贸易负面清单，推进服务业扩大开放综合试点示范。</p>
+      </div>
+
+      <h4>2. 稳步提升制度型开放水平</h4>
+      <div class="policy-box">
+        <h4>三大举措</h4>
+        <ul>
+          <li><strong>对接国际高标准经贸规则</strong>：对接CPTPP、DEPA等国际高标准</li>
+          <li><strong>推进负面清单管理制度</strong>：全国版清单服务业条目减至23条，金融领域"清零"</li>
+          <li><strong>试点扩大重点服务业对外开放</strong>：北京、上海、海南、深圳四地试点</li>
+        </ul>
+      </div>
+
+      <h4>3. 负面清单管理制度</h4>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>清单类型</th><th>条目数</th><th>特点</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>全国版外资准入负面清单</td><td>29条</td><td>制造业清零</td></tr>
+            <tr><td>全国版跨境服务贸易负面清单</td><td>71条</td><td>首版全国范围清单</td></tr>
+            <tr><td>自贸试验区版清单</td><td>68条</td><td>更大幅度开放</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>三、重点开放平台利用外资效应</h3>
+      
+      <h4>主要开放平台</h4>
+      <div class="compare-grid">
+        <div class="compare-item">
+          <h5><i class="fas fa-flag"></i> 自由贸易试验区</h5>
+          <p>全国已设立22个自贸试验区，形成覆盖东西南北中的改革开放创新格局。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-umbrella-beach"></i> 海南自由贸易港</h5>
+          <p>全球最大自由贸易港，实行零关税、低税率、简税制。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-city"></i> 服务业扩大开放试点</h5>
+          <p>北京、上海、天津、海南、广州、深圳等试点城市。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 地方篇 -->
+    <div class="section" id="chapter4">
+      <h2><i class="fas fa-map-marker-alt"></i> 地方篇：重点省市案例</h2>
+      
+      <h3>各省市外资利用特色</h3>
+      <div class="compare-grid">
+        <div class="compare-item">
+          <h5><i class="fas fa-city"></i> 北京</h5>
+          <p>221家外资研发中心，聚焦医药健康、信息技术、智能制造领域。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-building"></i> 上海</h5>
+          <p>591家外资研发中心，建设具有全球影响力的科技创新中心。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-industry"></i> 福建</h5>
+          <p>古雷石化基地，711亿元炼化一体化项目，石化产业高端化发展。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-car"></i> 吉林</h5>
+          <p>宝马沈阳基地，200亿元增资，制造业转型升级。</p>
+        </div>
+        <div class="compare-item">
+          <h5><i class="fas fa-rocket"></i> 重庆</h5>
+          <p>西部陆海新通道，"一带一路"重要节点，开放高地建设。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 课后测验 -->
+    <div class="section quiz-section" id="quiz">
+      <h3><i class="fas fa-question-circle"></i> 课后测验</h3>
+      
+      <div class="quiz-item">
+        <div class="q">2024年中国实际使用外资金额是多少？</div>
+        <div class="options">
+          <div class="option">A. 962.4亿美元</div>
+          <div class="option correct">B. 1162.4亿美元</div>
+          <div class="option">C. 1262.4亿美元</div>
+          <div class="option">D. 1062.4亿美元</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q">2024年制造业实际使用外资占总额的比重是多少？</div>
+        <div class="options">
+          <div class="option">A. 22.8%</div>
+          <div class="option">B. 24.8%</div>
+          <div class="option correct">C. 26.8%</div>
+          <div class="option">D. 28.8%</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q">2024年对华最大投资来源地是哪个国家/地区？</div>
+        <div class="options">
+          <div class="option">A. 新加坡</div>
+          <div class="option correct">B. 中国香港</div>
+          <div class="option">C. 日本</div>
+          <div class="option">D. 美国</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q">全国版外资准入负面清单已实现什么领域清零？</div>
+        <div class="options">
+          <div class="option">A. 服务业领域</div>
+          <div class="option correct">B. 制造业领域</div>
+          <div class="option">C. 农业领域</div>
+          <div class="option">D. 金融业领域</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="q">2024年高技术制造业实际使用外资同比增长最快的行业是？</div>
+        <div class="options">
+          <div class="option">A. 计算机及办公设备制造业</div>
+          <div class="option correct">B. 医疗仪器设备及仪器仪表制造业</div>
+          <div class="option">C. 电子设备制造业</div>
+          <div class="option">D. 专用设备制造业</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p><i class="fas fa-graduation-cap"></i> 《中国外商投资报告2025》教学解读版</p>
+    <p>数据来源：商务部《中国外商投资报告2025》| 2025年3月发布</p>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: "$$", right: "$$", display: true},
+          {left: "$", right: "$", display: false}
+        ],
+        throwOnError: false
+      });
+    });
+  </script>
+</body>
+</html>
