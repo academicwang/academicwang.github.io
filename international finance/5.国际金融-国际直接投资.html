@@ -1,0 +1,2066 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国际金融 · 国际直接投资 & 跨国公司资产负债管理</title>
+<!-- KaTeX 数学公式渲染 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });"></script>
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --secondary: #2c6fa3;
+    --accent: #e8a020;
+    --accent2: #4caf50;
+    --bg: #f4f7fb;
+    --card: #ffffff;
+    --text: #2d3748;
+    --muted: #718096;
+    --border: #e2e8f0;
+    --ch7: #2c6fa3;
+    --ch8: #e8a020;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ===== 导航 ===== */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .topnav .logo {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 14px 0;
+    margin-right: 30px;
+    white-space: nowrap;
+  }
+  .topnav .logo span { color: var(--accent); }
+  .topnav ul {
+    list-style: none;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .topnav ul::-webkit-scrollbar { display: none; }
+  .topnav ul li a {
+    display: block;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .topnav ul li a:hover, .topnav ul li a.active {
+    color: #fff;
+    border-bottom-color: var(--accent);
+  }
+  .topnav ul li a.ch7 { border-bottom-color: var(--ch7); }
+  .topnav ul li a.ch8 { border-bottom-color: var(--ch8); }
+
+  /* ===== 英雄区 ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: #fff;
+    padding: 60px 20px 40px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+  }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    margin-bottom: 20px;
+  }
+  .hero-badges {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.85rem;
+  }
+  .badge.ch7 { background: rgba(44,111,163,0.3); border-color: rgba(44,111,163,0.6); }
+  .badge.ch8 { background: rgba(232,160,32,0.3); border-color: rgba(232,160,32,0.6); }
+
+  /* ===== 容器 ===== */
+  .container { max-width: 1100px; margin: 0 auto; padding: 30px 16px 60px; }
+
+  /* ===== 通用卡片 ===== */
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .card-header {
+    padding: 16px 24px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .card-header:hover { filter: brightness(0.97); }
+  .card-header.ch7 { background: linear-gradient(135deg, #e8f2fb, #d4e8f7); border-left: 4px solid var(--ch7); }
+  .card-header.ch8 { background: linear-gradient(135deg, #fef7e8, #fde8c3); border-left: 4px solid var(--ch8); }
+  .card-header .tag {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .tag.ch7 { background: var(--ch7); color: #fff; }
+  .tag.ch8 { background: var(--ch8); color: #fff; }
+  .card-header .toggle-icon {
+    margin-left: auto;
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+    color: var(--muted);
+  }
+  .card-header.open .toggle-icon { transform: rotate(180deg); }
+  .card-body {
+    padding: 0 24px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+  }
+  .card-body.open { max-height: 5000px; padding: 20px 24px 24px; }
+
+  /* ===== 通用内容样式 ===== */
+  .content h3 { font-size: 1.05rem; color: var(--primary); margin: 20px 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
+  .content h4 { font-size: 0.95rem; color: var(--secondary); margin: 14px 0 8px; }
+  .content p { margin-bottom: 10px; font-size: 0.93rem; }
+  .content ul, .content ol { padding-left: 22px; margin-bottom: 12px; }
+  .content li { margin-bottom: 6px; font-size: 0.92rem; }
+  .content li::marker { color: var(--secondary); }
+
+  .highlight-box {
+    background: linear-gradient(135deg, #eef6ff, #e0efff);
+    border-left: 4px solid var(--secondary);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 0.92rem;
+  }
+  .highlight-box.warning {
+    background: linear-gradient(135deg, #fff8e6, #fff3cc);
+    border-left-color: var(--accent);
+  }
+  .highlight-box.success {
+    background: linear-gradient(135deg, #e8f5e9, #d4edda);
+    border-left-color: var(--accent2);
+  }
+  .highlight-box .label {
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--secondary);
+    margin-bottom: 6px;
+  }
+  .highlight-box.warning .label { color: #c07a00; }
+  .highlight-box.success .label { color: #2e7d32; }
+
+  /* ===== 表格 ===== */
+  .table-wrap { overflow-x: auto; margin: 14px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    min-width: 500px;
+  }
+  th {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f8fafc; }
+  tr:hover td { background: #eef6ff; }
+
+  /* ===== 公式 ===== */
+  .formula-box {
+    background: #1a1a2e;
+    color: #e8f5e9;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 14px 0;
+    font-family: "Courier New", monospace;
+    font-size: 0.95rem;
+    overflow-x: auto;
+  }
+  .formula-box .f-title {
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+  }
+  .formula-box code { color: #80cbc4; }
+  .formula-box .f-note { color: #a5d6a7; font-size: 0.85rem; margin-top: 6px; }
+
+  /* ===== 标签 ===== */
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 2px;
+  }
+  .pill.blue { background: #e3f2fd; color: #1565c0; }
+  .pill.orange { background: #fff3e0; color: #e65100; }
+  .pill.green { background: #e8f5e9; color: #2e7d32; }
+  .pill.red { background: #ffebee; color: #c62828; }
+  .pill.purple { background: #f3e5f5; color: #6a1b9a; }
+
+  /* ===== 案例框 ===== */
+  .case-box {
+    background: linear-gradient(135deg, #f5f0ff, #ede7f6);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    border: 1px solid #d1c4e9;
+  }
+  .case-box .case-title {
+    font-weight: 700;
+    color: #5e35b1;
+    margin-bottom: 8px;
+    font-size: 0.92rem;
+  }
+  .case-box p { font-size: 0.88rem; }
+
+  /* ===== 进度条 ===== */
+  .progress-wrap { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+  .progress-bar-bg { flex: 1; background: #e2e8f0; border-radius: 10px; height: 12px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 10px; transition: width 1s ease; }
+  .progress-bar-fill.ch7 { background: linear-gradient(90deg, var(--ch7), #5c9fd6); }
+  .progress-bar-fill.ch8 { background: linear-gradient(90deg, var(--ch8), #f0c060); }
+  .progress-label { font-size: 0.82rem; color: var(--muted); min-width: 40px; text-align: right; }
+
+  /* ===== 测验区 ===== */
+  .quiz-section { margin-top: 20px; }
+  .quiz-question {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+  }
+  .quiz-q {
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    display: flex;
+    gap: 8px;
+  }
+  .quiz-q .q-num {
+    background: var(--primary);
+    color: #fff;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem;
+    flex-shrink: 0;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+  }
+  .quiz-option:hover { border-color: var(--secondary); background: #eef6ff; }
+  .quiz-option.selected { border-color: var(--secondary); background: #e3f2fd; }
+  .quiz-option.correct { border-color: #2e7d32; background: #e8f5e9; color: #2e7d32; }
+  .quiz-option.wrong { border-color: #c62828; background: #ffebee; color: #c62828; }
+  .quiz-option .opt-letter {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 0.82rem;
+    flex-shrink: 0;
+  }
+  .quiz-option.correct .opt-letter { background: #2e7d32; color: #fff; }
+  .quiz-option.wrong .opt-letter { background: #c62828; color: #fff; }
+  .quiz-feedback {
+    margin-top: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .quiz-feedback.wrong { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+  .quiz-btn {
+    margin-top: 10px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    display: none;
+  }
+  .quiz-btn.show { display: inline-block; }
+  .quiz-score {
+    text-align: center;
+    padding: 16px;
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2e7d32;
+    display: none;
+  }
+  .quiz-score.show { display: block; }
+
+  /* ===== 计算器 ===== */
+  .calc-section { background: #f8fafc; border-radius: 10px; padding: 20px; margin: 14px 0; border: 1px solid var(--border); }
+  .calc-title { font-weight: 700; margin-bottom: 14px; font-size: 0.95rem; color: var(--primary); }
+  .calc-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .calc-row label { font-size: 0.88rem; min-width: 110px; font-weight: 600; }
+  .calc-row input {
+    flex: 1; min-width: 120px;
+    padding: 7px 12px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+  }
+  .calc-row input:focus { outline: none; border-color: var(--secondary); }
+  .calc-btn {
+    background: var(--secondary);
+    color: #fff;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 8px;
+    transition: background 0.2s;
+  }
+  .calc-btn:hover { background: var(--primary); }
+  .calc-btn.reset { background: var(--muted); }
+  .calc-result {
+    margin-top: 14px;
+    padding: 14px;
+    background: #1a1a2e;
+    color: #e8f5e9;
+    border-radius: 8px;
+    font-family: "Courier New", monospace;
+    font-size: 0.92rem;
+    display: none;
+  }
+  .calc-result.show { display: block; }
+
+  /* ===== 时间轴 ===== */
+  .timeline { position: relative; padding-left: 30px; margin: 16px 0; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--ch7), var(--ch8));
+    border-radius: 2px;
+  }
+  .timeline-item { position: relative; margin-bottom: 20px; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -24px; top: 5px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--ch7);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px var(--ch7);
+  }
+  .timeline-item.ch8::before { background: var(--ch8); box-shadow: 0 0 0 2px var(--ch8); }
+  .timeline-date { font-weight: 700; color: var(--secondary); font-size: 0.85rem; margin-bottom: 4px; }
+  .timeline-item.ch8 .timeline-date { color: #c07a00; }
+  .timeline-content { font-size: 0.9rem; }
+
+  /* ===== 对比图 ===== */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 14px 0;
+  }
+  @media (max-width: 640px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-item {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 14px;
+    border: 1px solid var(--border);
+  }
+  .compare-item h5 { font-size: 0.88rem; color: var(--secondary); margin-bottom: 8px; border-bottom: 2px solid var(--secondary); padding-bottom: 6px; }
+  .compare-item ul { padding-left: 16px; }
+  .compare-item li { font-size: 0.85rem; margin-bottom: 4px; }
+
+  /* ===== 知识图谱 ===== */
+  .mindmap {
+    background: linear-gradient(135deg, #f0f4ff, #e8f0fe);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 14px 0;
+    text-align: center;
+  }
+  .mind-center {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+  }
+  .mind-branches {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .mind-branch {
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-top: 3px solid var(--secondary);
+    max-width: 180px;
+  }
+  .mind-branch.ch8 { border-top-color: var(--ch8); }
+  .mind-branch strong { display: block; color: var(--primary); margin-bottom: 4px; }
+
+  /* ===== 锚点导航 ===== */
+  .anchor-nav {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
+  }
+  .anchor-nav h4 { font-size: 0.88rem; color: var(--muted); margin-bottom: 10px; }
+  .anchor-links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .anchor-links a {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.82rem;
+    transition: all 0.2s;
+    border: 1px solid var(--border);
+  }
+  .anchor-links a:hover { background: var(--secondary); color: #fff; border-color: var(--secondary); }
+  .anchor-links a.ch7:hover { background: var(--ch7); border-color: var(--ch7); }
+  .anchor-links a.ch8:hover { background: var(--ch8); border-color: var(--ch8); }
+
+  /* ===== 页脚 ===== */
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--primary);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.85rem;
+  }
+
+  /* ===== 动画 ===== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate { animation: fadeInUp 0.5s ease forwards; }
+
+  /* ===== 交互提示 ===== */
+  .interactive-tip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #fff3e0;
+    border: 1px solid #ffcc80;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.78rem;
+    color: #e65100;
+    margin-left: 6px;
+  }
+
+  /* ===== 图表区 ===== */
+  .chart-container { margin: 14px 0; }
+  .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 180px; padding: 10px 0; }
+  .bar-item { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px; }
+  .bar-fill {
+    width: 100%;
+    border-radius: 6px 6px 0 0;
+    transition: height 1s ease;
+    min-height: 4px;
+    position: relative;
+  }
+  .bar-fill.ch7 { background: linear-gradient(to top, var(--ch7), #7ab8e8); }
+  .bar-fill.ch8 { background: linear-gradient(to top, var(--ch8), #f5d078); }
+  .bar-label { font-size: 0.72rem; color: var(--muted); text-align: center; writing-mode: vertical-rl; max-height: 120px; overflow: hidden; }
+  .bar-value { font-size: 0.78rem; font-weight: 700; color: var(--text); }
+
+  /* KaTeX 公式在 formula-box 暗色背景内的颜色调整 */
+  .formula-box .katex { color: #80cbc4; }
+  .formula-box .katex-display { color: #80cbc4; margin: 10px 0; }
+  .formula-box .katex-html { color: #80cbc4; }
+
+  /* 数据来源标注 */
+  .data-source {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 6px;
+    padding: 4px 10px;
+    background: #f8fafc;
+    border-radius: 4px;
+    border-left: 3px solid var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav class="topnav">
+  <div class="logo">🌏 国际金融 <span>· 教学</span></div>
+  <ul>
+    <li><a href="#overview" class="active">课程概览</a></li>
+    <li><a href="#ch7" class="ch7">国际直接投资</a></li>
+    <li><a href="#ch8" class="ch8">资产负债管理</a></li>
+    <li><a href="#quiz">随堂测验</a></li>
+    <li><a href="#calc">计算器</a></li>
+  </ul>
+</nav>
+
+<!-- 英雄区 -->
+<div class="hero">
+  <h1>📚 国际金融</h1>
+  <p class="subtitle">国际直接投资 &amp; 跨国公司资产负债管理</p>
+  <div class="hero-badges">
+    <span class="badge ch7">国际直接投资</span>
+    <span class="badge ch8">跨国公司资产负债管理</span>
+    <span class="badge">交互式教学</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 锚点导航 -->
+  <div class="anchor-nav" id="overview">
+    <h4>📌 快速导航</h4>
+    <div class="anchor-links">
+      <a href="#ch7-1" class="ch7">投资方式</a>
+      <a href="#ch7-2" class="ch7">FDI理论</a>
+      <a href="#ch7-3" class="ch7">国家风险</a>
+      <a href="#ch7A" class="ch7">资本预算</a>
+      <a href="#ch8-1" class="ch8">现金流管理</a>
+      <a href="#ch8-2" class="ch8">短期债务</a>
+      <a href="#ch8-3" class="ch8">资本结构</a>
+      <a href="#quiz">📝 随堂测验</a>
+      <a href="#calc">🧮 NPV计算器</a>
+    </div>
+  </div>
+
+  <!-- ========== 国际直接投资 ========== -->
+  <div id="ch7" style="margin-top:32px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <h2 style="color:var(--ch7);font-size:1.4rem;">国际直接投资</h2>
+      <span class="pill purple">Foreign Direct Investment</span>
+    </div>
+
+    <!-- 7.1 -->
+    <div class="card" id="ch7-1">
+      <div class="card-header ch7" onclick="toggleCard(this)">
+        <span class="tag ch7">一</span>
+        国际直接投资方式
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="content">
+          <div class="highlight-box">
+            <div class="label">💡 核心定义</div>
+            <strong>国际直接投资（FDI）</strong>是指投资者跨越国界，通过<strong>创立、收购</strong>等手段，以掌握和控制国外企业经营活动从而谋取利润的一种投资活动。
+          </div>
+
+          <h3>一、合营方式</h3>
+          <p>国际直接投资的基本方式有两种：<strong>合营（合资）</strong>和<strong>独资</strong>。合营方式细分两种：</p>
+
+          <div class="compare-grid">
+            <div class="compare-item">
+              <h5>🔷 股权式合营（合营企业）</h5>
+              <ul>
+                <li>采用股份制企业模式</li>
+                <li>股份有限公司：等额股份，发行股票，股东承担有限责任</li>
+                <li>有限责任公司：两个以上股东，认缴出资额承担有限责任</li>
+                <li>典型：家乐福、沃尔玛、宜家、百盛</li>
+                <li>我国中外合资企业主要采用有限责任公司形式</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>🔶 契约式合营（合作企业）</h5>
+              <ul>
+                <li>大多采用合伙制形式</li>
+                <li>通过签订合约明确双方权利义务</li>
+                <li>可以是企业法人（负有限责任）</li>
+                <li>也可以不是法人（类似合伙企业）</li>
+                <li>典型：四大会计师事务所（普华永道、毕马威、德勤、安永）在华机构</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>二、独资方式</h3>
+          <p>一国投资者按照东道国法律，在其境内<strong>单独投资、独立经营、自负盈亏</strong>的国际直接投资方式。</p>
+
+          <div class="compare-grid">
+            <div class="compare-item">
+              <h5>🏢 独资子公司</h5>
+              <ul>
+                <li>完整独立的法律实体</li>
+                <li>对子公司实行严密控制</li>
+                <li>有利于保守技术秘密</li>
+                <li>案例：美国友邦人寿保险公司</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>🏪 分公司</h5>
+              <ul>
+                <li>法律上、经济上没有独立性</li>
+                <li>仅是母公司的附属机构</li>
+                <li>没有自己的名称、章程和财产</li>
+                <li>以母公司资产对债务承担法律责任</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>三、合营 vs 独资 — 利弊对比表</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>维度</th><th>合营（对外国投资者）</th><th>独资（对外国投资者）</th><th>对东道国的利弊</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>投资风险</strong></td>
+                  <td>✅ 有限责任，风险较小</td>
+                  <td>❌ 全部承担风险，投入资金大</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><strong>东道国保护</strong></td>
+                  <td>✅ 享受东道国一定保护</td>
+                  <td>✅ 完全控制</td>
+                  <td>合营：引进技术、管理经验，培养本国人才<br>独资：带来更先进技术，但利润全部外流</td>
+                </tr>
+                <tr>
+                  <td><strong>资源利用</strong></td>
+                  <td>✅ 利用东道国资源、渠道、合作伙伴优势</td>
+                  <td>❌ 需独立建立所有资源</td>
+                  <td>合营：学习先进管理经验<br>独资：对东道国经济控制较强</td>
+                </tr>
+                <tr>
+                  <td><strong>协调成本</strong></td>
+                  <td>❌ 股东多，需定期公布信息，协调成本高</td>
+                  <td>✅ 无需与他人协调</td>
+                  <td rowspan="2">合营：存在目标差异，可能冲击民族工业<br>独资：需警惕对民族工业的打压</td>
+                </tr>
+                <tr>
+                  <td><strong>利益冲突</strong></td>
+                  <td>❌ 在市场、原料上与合作伙伴形成竞争</td>
+                  <td>✅ 避免与合作方冲突</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="highlight-box warning">
+            <div class="label">⚠️ 政策提示</div>
+            各国对外国直接投资的态度因国情不同而有所差异：美国外国投资委员会（CFIUS）以国家安全为由审查外资。典型案例：2011年CFIUS以国家安全为由驳回华为收购3Com公司的要求。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7.2 -->
+    <div class="card" id="ch7-2">
+      <div class="card-header ch7" onclick="toggleCard(this)">
+        <span class="tag ch7">二</span>
+        FDI理论与中国双向投资趋势
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="content">
+          <div class="formula-box">
+            <div class="f-title">📖 英文原文</div>
+            <code>Foreign direct investment (FDI) occurs when citizens of one nation (the "home" nation) acquire managerial control of economic activities in some other nation (the "host" nation).</code>
+            <div class="f-note">翻译：FDI发生在一国公民（母国）获得对另一国（东道国）经济活动管理控制权时。</div>
+          </div>
+
+          <h3>中国对外直接投资发展阶段</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-date">第一阶段 · 改革开放初期</div>
+              <div class="timeline-content">起步探索阶段，对外直接投资刚刚起步</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">第二阶段 · 加入WTO后</div>
+              <div class="timeline-content">加速成长阶段，加入WTO后对外投资明显加速</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">第三阶段 · 2003年至今</div>
+              <div class="timeline-content">
+                加速走出去阶段：<br>
+                · 2005年三一重工等企业开始布局欧洲<br>
+                · 2011年欧洲主权债务危机后，三一重工、徐工集团等并购东欧机械制造企业<br>
+                · 2012年中国成为全球第五大对外投资国<br>
+                · 投资分布在全球174个国家和地区
+              </div>
+            </div>
+            <div class="timeline-item ch8">
+              <div class="timeline-date">第四阶段 · 2013年至今（高速发展）</div>
+              <div class="timeline-content">
+                <strong>一带一路</strong>倡议（2013年9月习近平提出）：<br>
+                · 目标：政策沟通、设施联通、贸易相通、资金流通、人心相通<br>
+                · 与70多个国家及国际组织签署合作协议<br>
+                · 在沿线20多个国家建立56个经贸合作区<br>
+                · 六大经济走廊：新亚欧大陆桥、中国—中亚—西亚、中国—中南半岛、中巴、孟中印缅等
+              </div>
+            </div>
+          </div>
+
+          <h3>外商在华直接投资特点（2024年数据）</h3>
+          <p>2024年，全国新设立外商投资企业<strong>5.9万家</strong>（同比增长9.9%）；全年实际使用外资金额<strong>1,162.4亿美元</strong>（折合人民币8,262.5亿元），保持发展中经济体最大引资国地位。截至2024年底，全国<strong>累计设立外商投资企业123.9万家</strong>，实际使用外资<strong>接近3万亿美元</strong>；外商在华再投资金额<strong>1,622.8亿元</strong>，同比增长15%。</p>
+
+          <div class="highlight-box" style="margin-bottom:10px;">
+            <div class="label">📊 2024年来源地格局</div>
+            亚洲十国/地区合计占比 <strong>85.3%</strong>；新加坡连续12年为中国最大引资来源国（<strong>108.5亿美元，占9.3%</strong>）；美国43.9亿美元（3.8%）；英国25.9亿美元（2.2%）；欧盟整体 <strong>68.2亿美元</strong>；北美整体 <strong>46.7亿美元</strong>。前十位来源地合计占比94.5%。
+          </div>
+
+          <h4>外商对华投资主要来源地（2024年，单位：亿美元，不含香港转口）</h4>
+          <div class="chart-container">
+            <div class="bar-chart" id="fdi-chart">
+              <div class="bar-item">
+                <div class="bar-value">108.5</div>
+                <div class="bar-fill ch7" style="height:100%;"></div>
+                <div class="bar-label">新加坡</div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-value">43.9</div>
+                <div class="bar-fill ch7" style="height:40%;"></div>
+                <div class="bar-label">美国</div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-value">25.9</div>
+                <div class="bar-fill ch7" style="height:24%;"></div>
+                <div class="bar-label">英国</div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-value">23.9</div>
+                <div class="bar-fill ch7" style="height:22%;"></div>
+                <div class="bar-label">韩国</div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-value">21.3</div>
+                <div class="bar-fill ch7" style="height:20%;"></div>
+                <div class="bar-label">日本</div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-value">19.6</div>
+                <div class="bar-fill ch7" style="height:18%;"></div>
+                <div class="bar-label">德国</div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-value">18.5</div>
+                <div class="bar-fill ch7" style="height:17%;"></div>
+                <div class="bar-label">荷兰</div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-value">17.2</div>
+                <div class="bar-fill ch7" style="height:16%;"></div>
+                <div class="bar-label">中国台湾</div>
+              </div>
+              <div class="bar-item">
+                <div class="bar-value">10.2</div>
+                <div class="bar-fill ch7" style="height:9%;"></div>
+                <div class="bar-label">法国</div>
+              </div>
+            </div>
+          </div>
+          <p class="data-source">📌 数据来源：商务部《中国外商投资报告2025》表1-3（2025年发布）。图表数据均为官方精确数字，不含中国香港（香港转口投资809.6亿美元，占69.6%，因统计口径特殊不作对比展示）。前十位来源地合计占比94.5%。</p>
+
+          <h4>外商在华投资四大特点（2024年）</h4>
+          <div class="mindmap">
+            <div class="mind-center">外商在华投资特点（2024）</div>
+            <div class="mind-branches">
+              <div class="mind-branch">
+                <strong>① 高技术制造业引资加速</strong>
+                高技术制造业实际使用外资135.1亿美元，占制造业43.4%（同比提高3.7ppt）；医疗仪器设备及仪器仪表制造+93.7%；计算机及办公设备制造+21.1%
+              </div>
+              <div class="mind-branch">
+                <strong>② 服务业主导地位稳固</strong>
+                服务业实际使用外资822.4亿美元，占比70.8%；生产性服务业683.9亿美元，占比58.8%（同比提高5.3ppt）；咨询与调查服务+99.9%
+              </div>
+              <div class="mind-branch">
+                <strong>③ 外商再投资意愿强劲</strong>
+                外商在华再投资1,622.8亿元人民币，同比增长15%；西部地区再投资增速60.6%；76%受访企业计划2025年再投资
+              </div>
+              <div class="mind-branch">
+                <strong>④ 来源地多元化加速</strong>
+                欧盟68.2亿美元（占比5.9%，较2021年+2.9ppt），北美46.7亿美元（占比4.0%，较2021年+2.2ppt）；葡萄牙+416.1%、爱尔兰+218.9%、西班牙+129.9%
+              </div>
+            </div>
+          </div>
+
+          <div class="case-box">
+            <div class="case-title">📋 典型案例：外资高质量发展新趋势（2024年）</div>
+            <p><strong>宝马沈阳大东工厂升级：</strong>2024年4月，宝马集团计划对沈阳生产基地增加投资200亿元，对大东工厂实施大规模技术升级，推动东北地区新能源及智能网联产业集群发展。</p>
+            <p><strong>大众汽车合肥创新中心：</strong>2024年4月，大众汽车集团投资25亿欧元拓展合肥生产及创新中心，与小鹏汽车共同开发两款车型，计划2026年投产，至2030年将提供超30款纯电动车型。</p>
+            <p><strong>沙特阿美炼化一体化项目：</strong>2024年11月，沙特阿美联手中国石化与福建炼化启动总投资711亿元的炼化一体化项目，建设30余套大型炼化装置，预计2030年全面投产。</p>
+          </div>
+
+          <h3>中国双向直接投资统计（2024年）</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>指标</th><th>数据</th><th>备注</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>实际使用外资（吸引外资）</td><td>1,162.4 亿美元（约8,262.5亿元人民币）</td><td>连续15年超1000亿美元；发展中经济体第一</td></tr>
+                <tr><td>新设外商投资企业数</td><td>5.9万家（同比+9.9%）</td><td>连续增长，创近年新高</td></tr>
+                <tr><td>对外直接投资流量</td><td>1,922 亿美元（同比+8.4%）</td><td>连续13年列全球前三，占全球11.9%</td></tr>
+                <tr><td>对外直接投资存量</td><td>3.14万亿美元</td><td>连续八年排名全球前三</td></tr>
+                <tr><td>投资覆盖国家和地区</td><td>190个国家和地区</td><td>境外企业5.2万家</td></tr>
+                <tr><td>一带一路境外企业</td><td>1.9万家</td><td>共建国家，2013年后快速增长</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="data-source">📌 数据来源：商务部《中国外商投资报告2025》（2025年发布）；国家统计局、国家外汇管理局《2024年度中国对外直接投资统计公报》</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7.3 -->
+    <div class="card" id="ch7-3">
+      <div class="card-header ch7" onclick="toggleCard(this)">
+        <span class="tag ch7">三</span>
+        国家风险分析
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="content">
+          <div class="highlight-box">
+            <div class="label">⚡ 核心定义</div>
+            <strong>国家风险（Country Risk）</strong>：导致国际经济活动偏离预期结果，给外国企业或投资者造成经济损失的可能性。国家风险是企业对外投资首先考虑的因素。
+          </div>
+
+          <h3>一、国家风险类型</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>类型</th><th>具体表现</th><th>案例</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="pill red">政治风险</span></td><td>政府政策变化、国有化/征收、战争内乱、劳工政策限制</td><td>CFIUS驳回华为收购3Com；利比亚内战（2011年）</td></tr>
+                <tr><td><span class="pill orange">经济风险</span></td><td>通货膨胀、汇率波动、债务危机、经济衰退</td><td>欧洲主权债务危机（2011年）；中国工资上涨致沿海加工贸易企业外迁</td></tr>
+                <tr><td><span class="pill purple">市场风险</span></td><td>市场准入限制、竞争加剧、行业保护政策</td><td>中国加入WTO时对汽车、金融业设置5年保护期</td></tr>
+                <tr><td><span class="pill green">社会风险</span></td><td>卫生健康、极端天气、自然灾害、文化冲突</td><td>埃博拉病毒高发区投资风险；气候变化极端天气损失</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>二、国家风险评估方法</h3>
+          <div class="compare-grid">
+            <div class="compare-item">
+              <h5>📝 定性评估法</h5>
+              <ul>
+                <li>专家访谈、政策研究、文献分析</li>
+                <li>对东道国政治稳定性、法律环境、经济基本面进行综合判断</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>📊 定量评估法</h5>
+              <ul>
+                <li>使用统计模型</li>
+                <li>对GDP增长率、通胀率、债务水平、汇率稳定性等指标量化打分</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>⚖️ 综合评估法</h5>
+              <ul>
+                <li>定性和定量方法结合</li>
+                <li>建立加权打分模型</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>🔍 巡查访问法</h5>
+              <ul>
+                <li>到被投资国实地考察</li>
+                <li>会见当地政府官员、企业家、律师</li>
+                <li>亲身了解当地市场、政策、文化等第一手信息</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>三、典型国家风险案例：利比亚</h3>
+          <div class="case-box">
+            <div class="case-title">📋 案例：中兴&华为进入利比亚电信市场</div>
+            <p>
+              · 中兴通讯突破利比亚电信市场，华为随后进入<br>
+              · <strong style="color:#c62828;">2011年2月21日</strong>，利比亚反政府武装冲突升级，政治风险骤然爆发<br>
+              · 这是典型的<strong>政治风险（战争、内乱）</strong>导致的国家风险事件<br>
+              · 教训：必须持续监测国家风险，定期评估
+            </p>
+          </div>
+
+          <h3>四、风险分散策略</h3>
+          <div class="highlight-box success">
+            <div class="label">✅ 风险分散手段</div>
+            在一个较短的周期（5年或10年），通过以下手段分散国家风险：<br>
+            · <strong>加速折旧</strong>，快速回收投资<br>
+            · <strong>分期分批</strong>将子公司资产卖给当地投资者或政府<br>
+            · 尽快获取国外投资回报<br>
+            · 政府担保和保险（如德国投资担保，2003-2004年每年约400亿欧元额度）
+          </div>
+
+          <h3>五、国家风险对东道国的影响</h3>
+          <div class="compare-grid">
+            <div class="compare-item">
+              <h5 style="color:#2e7d32;">✅ 正面影响</h5>
+              <ul>
+                <li>带来信息技术</li>
+                <li>有助于解决就业问题</li>
+                <li>促进资本形成</li>
+                <li>转移先进管理经验</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5 style="color:#c62828;">❌ 负面影响</h5>
+              <ul>
+                <li>挤压国内民族工业</li>
+                <li>利润外流</li>
+                <li>对资源的控制</li>
+                <li>可能产生环境外部性</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 附录7A -->
+    <div class="card" id="ch7A">
+      <div class="card-header ch7" onclick="toggleCard(this)">
+        <span class="tag ch7">附录</span>
+        跨国公司资本预算（NPV计算详解）
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="content">
+          <div class="highlight-box">
+            <div class="label">💰 资本预算定义</div>
+            资本预算是跨国公司进行直接投资的决策依据。理论上，直接投资的利润评估以<strong>净现值（NPV）</strong>为核心指标。
+          </div>
+
+          <h3>一、净现值（NPV）公式</h3>
+          <div class="formula-box">
+            <div class="f-title">📐 净现值公式（KaTeX 渲染）</div>
+            <div style="padding:10px 0; text-align:center;">
+              $$NPV = -I + \sum_{t=1}^{n} \frac{C_t}{(1+r)^t} + \frac{SV_n}{(1+r)^n}$$
+            </div>
+            <div class="f-note">
+              $I$ = 初始投资额 &nbsp;&nbsp; $C_t$ = 第 $t$ 年的现金流 &nbsp;&nbsp; $r$ = 预期收益率（折现率）<br>
+              $SV_n$ = 第 $n$ 年末的残值 &nbsp;&nbsp; $n$ = 投资年限
+            </div>
+          </div>
+
+          <h3>二、日光公司案例（法国投资）</h3>
+          <div class="case-box">
+            <div class="case-title">📋 例7A-1：中国日光公司投资法国摩托车项目</div>
+            <p>
+              · 中国摩托车制造商日光公司计划在法国设立子公司<br>
+              · 汇率假设：¥10.8 / €<br>
+              · 固定成本：办公场地租金每年50万欧元，制造费用每年50万欧元<br>
+              · 法国政府规定：子公司产生的所有现金必须留在当地至少再投资三年
+            </p>
+          </div>
+
+          <h4>2.1 基本NPV计算结果</h4>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>项目</th><th>金额（万元人民币）</th><th>说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>母公司初始投资</td><td>-5,710.77</td><td>初始投资折算人民币</td></tr>
+                <tr><td>流入母公司的现金流</td><td>€409.6 / €336</td><td>不同年份的现金流</td></tr>
+                <tr><td>流入母公司的净现值</td><td>€512</td><td>折算约¥4,527.23万</td></tr>
+                <tr><td><strong>净现值（NPV）</strong></td><td><strong>¥2,410万元</strong></td><td>投资收益率 31.88%</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>2.2 高预提税率的影响</h4>
+          <p>若预提税率上升，则：</p>
+          <div class="progress-wrap">
+            <span style="font-size:0.85rem;min-width:80px;">原NPV</span>
+            <div class="progress-bar-bg"><div class="progress-bar-fill ch7" style="width:100%;"></div></div>
+            <span class="progress-label">¥2,410万</span>
+          </div>
+          <div class="progress-wrap">
+            <span style="font-size:0.85rem;min-width:80px;">高预提税后</span>
+            <div class="progress-bar-bg"><div class="progress-bar-fill ch7" style="width:65%;"></div></div>
+            <span class="progress-label">¥1,569万</span>
+          </div>
+          <p style="font-size:0.88rem;color:var(--muted);">投资收益率由 31.88% → 20.76%，下降约11个百分点</p>
+
+          <h4>2.3 预期净现值 E(NPV) — 国家风险综合分析</h4>
+          <p>日光公司需要将预提税和清算价值两种国家风险变量的概率纳入计算：</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>情形</th><th>预提税</th><th>清算价值</th><th>联合概率</th><th>NPV（万元）</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>情形1</td><td>低（30%）</td><td>高（60%）</td><td>0.3×0.6=0.18</td><td>¥2,410</td></tr>
+                <tr><td>情形2</td><td>低（30%）</td><td>低（40%）</td><td>0.3×0.4=0.12</td><td>¥1,569</td></tr>
+                <tr><td>情形3</td><td>高（70%）</td><td>高（60%）</td><td>0.7×0.6=0.42</td><td>¥1,724</td></tr>
+                <tr><td>情形4</td><td>高（70%）</td><td>低（40%）</td><td>0.7×0.4=0.28</td><td>¥883</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="formula-box">
+            <div class="f-title">📊 预期净现值公式（KaTeX 渲染）</div>
+            <div style="padding:10px 0; text-align:center;">
+              $$E(NPV) = \sum_{i=1}^{n} NPV_i \times P_i$$
+            </div>
+            <div style="padding:6px 0; text-align:center;">
+              $$E(NPV) = 2410 \times 0.42 + 1569.15 \times 0.18 + 1723.64 \times 0.28 + 882.79 \times 0.12 \approx 1883.20 \text{ 万元}$$
+            </div>
+            <div class="f-note">✅ 考虑国家风险后，预期NPV仍为正值，投资收益率24.91%，项目仍具有可行性</div>
+          </div>
+
+          <h3>三、资本预算的风险调整方法</h3>
+          <div class="compare-grid">
+            <div class="compare-item">
+              <h5>📈 ① 敏感性分析</h5>
+              <ul>
+                <li>对重点因素（通货膨胀率、汇率等）做敏感性分析</li>
+                <li>设定乐观/悲观/较可能/最可能场景</li>
+                <li>计算各场景NPV</li>
+                <li>若各场景NPV均为正 → 投资项目对因素不敏感</li>
+                <li>若NPV有正有负 → 需进一步使用蒙特卡洛模拟、VAR</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>🎲 ② 模拟分析（蒙特卡洛）</h5>
+              <ul>
+                <li>根据场景变化概率测算、调整现金流</li>
+                <li>需要借助计算机完成</li>
+                <li>同时考虑多因素联合概率分布</li>
+                <li>检测NPV可能出现的范围</li>
+                <li>确定NPV大于特定水平值的概率</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>📊 ③ 调整预期收益率</h5>
+              <ul>
+                <li>比较简便的方法：直接调整预期收益率</li>
+                <li>原理：现金流不确定性↑ → 风险溢价↑</li>
+                <li>日光公司公式：$\Delta r = 0.3\Delta c + 18.6(\Delta c)^2$</li>
+                <li>$\Delta r$ = 预期收益率变化率，$\Delta c$ = 现金流不确定幅度</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>⚠️ 长期投资注意事项</h5>
+              <ul>
+                <li>在投资期限较长时，不同时间段的现金流不确定性大小不同</li>
+                <li>需要<strong>分段确定</strong>预期投资收益变化率</li>
+                <li>跨国公司必须持续监测国家风险，定期评估</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 跨国公司资产负债管理 ========== -->
+  <div id="ch8" style="margin-top:32px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <h2 style="color:var(--ch8);font-size:1.4rem;">跨国公司资产负债管理</h2>
+      <span class="pill purple">Asset and Liability Management</span>
+    </div>
+
+    <!-- 8.1 -->
+    <div class="card" id="ch8-1">
+      <div class="card-header ch8" onclick="toggleCard(this)">
+        <span class="tag ch8">一</span>
+        跨国公司流动资产管理（现金流分析）
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="content">
+          <div class="highlight-box">
+            <div class="label">💡 核心定义</div>
+            <strong>跨国公司资产负债管理目标</strong>：实现企业价值最大化。公司价值取决于现金流量、资本结构和资本成本。
+          </div>
+
+          <h3>一、公司现金流公式</h3>
+          <div class="formula-box">
+            <div class="f-title">📐 现金流公式</div>
+            <code>公司现金流 = 净利润 + 折旧及摊销 - 营运资本增加 - 投资性资本增加 + 新股本 - 股利 + 债务增加</code>
+            <div class="f-note">结论：短期→影响营运资本和净利润；长期→影响投资性资本、股利、债务及加权平均资本成本（WACC）</div>
+          </div>
+
+          <h3>二、子公司现金循环</h3>
+          <div class="mindmap">
+            <div class="mind-center">子公司现金流循环</div>
+            <div class="mind-branches">
+              <div class="mind-branch ch8"><strong>💰 现金流入</strong>销售收入、融资现金流入（贷款/资金注入/商业信用）</div>
+              <div class="mind-branch ch8"><strong>💸 现金流出</strong>原材料采购、存货、债务支出、向母公司上缴费用及利润、提供商业信用</div>
+              <div class="mind-branch ch8"><strong>🎯 管理目标</strong>最佳现金流量；最低现金余额；降低融资成本，增加利润</div>
+            </div>
+          </div>
+
+          <h3>三、影响子公司现金流的五大因素</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>因素</th><th>影响机制</th><th>与现金流关系</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="pill blue">① 通货膨胀</span></td>
+                  <td>原材料来自东道国→东道国通胀波动影响现金支出；来自国外→采购国通胀+汇率双重影响</td>
+                  <td>📈 成正相关</td>
+                </tr>
+                <tr>
+                  <td><span class="pill orange">② 存货水平</span></td>
+                  <td>预期原材料价格上涨或汇率大幅波动→保持较多库存，对抗不利影响</td>
+                  <td>↑库存 = ↑现金流出</td>
+                </tr>
+                <tr>
+                  <td><span class="pill green">③ 产品销售</span></td>
+                  <td>销售数量和结算方式决定流入/流出的金额和时间</td>
+                  <td>双向影响</td>
+                </tr>
+                <tr>
+                  <td><span class="pill purple">④ 汇率</span></td>
+                  <td>许多国家要求子公司一定比例产品外销，销售受汇率变动影响</td>
+                  <td>汇率↑→外销收入变化</td>
+                </tr>
+                <tr>
+                  <td><span class="pill red">⑤ 利率</span></td>
+                  <td>利率水平及波动对债务支出和投资现金流量有影响</td>
+                  <td>利率↑→债务支出↑</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>四、跨国公司现金管理五种技术</h3>
+          <div class="compare-grid">
+            <div class="compare-item">
+              <h5>🏦 收支两条线</h5>
+              <ul>
+                <li>设立两个账户：收入户（零余额管理）+ 支出户</li>
+                <li>收入户及时回笼到跨国公司总部，集中统一管理</li>
+                <li>支出户"以收定支"，最低资金占用</li>
+                <li>不允许子公司坐支现金</li>
+              </ul>
+              <p style="font-size:0.82rem;color:#1565c0;margin-top:6px;">意义：①统筹长短期战略；②全面预算管理</p>
+            </div>
+            <div class="compare-item">
+              <h5>🔄 净额结算</h5>
+              <ul>
+                <li>通过内部抵消，减少实际资金流转</li>
+                <li>降低交易成本</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>⚡ 加速清收</h5>
+              <ul>
+                <li>统迅速完成托收服务</li>
+                <li>缩短支票在途时间</li>
+                <li>加快资金回收速度</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>🛡️ 规避东道国管制</h5>
+              <ul>
+                <li>通过合理的财务安排</li>
+                <li>在遵守当地法规前提下</li>
+                <li>降低外汇管制造成的资金损失</li>
+              </ul>
+            </div>
+          </div>
+
+          <h4>内部现金管理模式对比</h4>
+          <div class="compare-grid">
+            <div class="compare-item">
+              <h5>🔓 分权式管理</h5>
+              <ul>
+                <li>灵活，适应子公司特殊需要</li>
+                <li>缺点：难以统筹规划现金流</li>
+                <li>利益冲突时难以有效进行</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>🔐 集权式管理</h5>
+              <ul>
+                <li>将大额存款集中→可协商更高存款利率</li>
+                <li>小额闲置资金集中使用，积少成多</li>
+                <li>缺点：子公司的特殊需要往往被忽略，产生机会成本</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8.2 -->
+    <div class="card" id="ch8-2">
+      <div class="card-header ch8" onclick="toggleCard(this)">
+        <span class="tag ch8">二</span>
+        短期债务管理（贸易融资方式）
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="content">
+          <div class="highlight-box warning">
+            <div class="label">📌 核心概念</div>
+            短期融资是跨国公司流动性管理的关键环节。常用的短期债务管理手段包括：打包贷款、应收账款融资（保理）、银行承兑汇票、季节性融资和商业信用。
+          </div>
+
+          <h3>五种短期融资方式</h3>
+
+          <div class="card" style="margin:12px 0;">
+            <div style="background:#e3f2fd;padding:12px 16px;font-weight:700;font-size:0.92rem;color:#1565c0;border-left:3px solid #1565c0;">
+              1️⃣ 打包贷款
+            </div>
+            <div style="padding:12px 16px;font-size:0.9rem;">
+              <p><strong>定义</strong>：银行向收到信用证的出口商提供的专项贷款</p>
+              <p><strong>用途</strong>：用于出口商生产、加工、采购出口商品所需的资金</p>
+            </div>
+          </div>
+
+          <div class="card" style="margin:12px 0;">
+            <div style="background:#fff3e0;padding:12px 16px;font-weight:700;font-size:0.92rem;color:#e65100;border-left:3px solid #e65100;">
+              2️⃣ 应收账款融资（保理 / Factoring）
+            </div>
+            <div style="padding:12px 16px;font-size:0.9rem;">
+              <p><strong>核心逻辑</strong>：将应收账款提前贴现，获得流动资金，转移信用风险</p>
+              <div class="case-box">
+                <div class="case-title">📋 中集公司案例</div>
+                <p>
+                  · 中集公司将应收账款组合卖给荷兰银行旗下的TAPCO（SPV）<br>
+                  · TAPCO在国际票据市场上享有良好声誉<br>
+                  · 资金池汇集收购来的几千亿美元应收账款<br>
+                  · 中集公司提前获得流动资金，转移了信用风险
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin:12px 0;">
+            <div style="background:#e8f5e9;padding:12px 16px;font-weight:700;font-size:0.92rem;color:#2e7d32;border-left:3px solid #2e7d32;">
+              3️⃣ 银行承兑汇票
+            </div>
+            <div style="padding:12px 16px;font-size:0.9rem;">
+              <p><strong>双向融资功能</strong>：</p>
+              <ul>
+                <li>✅ 使<strong>进口商</strong>获得出口商提供的资金融通</li>
+                <li>✅ 使<strong>出口商</strong>获得银行信用背书，降低收款风险</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="margin:12px 0;">
+            <div style="background:#f3e5f5;padding:12px 16px;font-weight:700;font-size:0.92rem;color:#6a1b9a;border-left:3px solid #6a1b9a;">
+              4️⃣ 季节性融资
+            </div>
+            <div style="padding:12px 16px;font-size:0.9rem;">
+              <p>用于：季节性地增加产量、购买原材料、以内销方式扩大销售。同时可规避外汇交易风险。</p>
+            </div>
+          </div>
+
+          <div class="card" style="margin:12px 0;">
+            <div style="background:#fce4ec;padding:12px 16px;font-weight:700;font-size:0.92rem;color:#880e4f;border-left:3px solid #c2185b;">
+              5️⃣ 商业信用
+            </div>
+            <div style="padding:12px 16px;font-size:0.9rem;">
+              <p>通过供应商提供的赊销期限实现短期融资，主要适用于<strong>信誉好的大型跨国公司</strong>。</p>
+            </div>
+          </div>
+
+          <h3>融资方式对比表</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>融资方式</th><th>主体</th><th>核心优势</th><th>适用场景</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>打包贷款</td><td>银行→出口商</td><td>专项用于出口生产</td><td>出口商收到信用证后</td></tr>
+                <tr><td>应收账款保理</td><td>企业→SPV/银行</td><td>提前变现，转移风险</td><td>大量应收账款积压</td></tr>
+                <tr><td>银行承兑汇票</td><td>银行+进出口商</td><td>双向融资+银行信用</td><td>进出口结算</td></tr>
+                <tr><td>季节性融资</td><td>银行→企业</td><td>匹配经营周期</td><td>季节性生产需求</td></tr>
+                <tr><td>商业信用</td><td>供应商→企业</td><td>无额外成本</td><td>大型跨国公司</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8.3 -->
+    <div class="card" id="ch8-3">
+      <div class="card-header ch8" onclick="toggleCard(this)">
+        <span class="tag ch8">三</span>
+        跨国公司资本结构管理
+        <span class="toggle-icon">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="content">
+          <div class="formula-box">
+            <div class="f-title">📖 英文原文</div>
+            <code>Cost of Capital: The cost of capital is the expected rate of return demanded by investors in business assets. Managers use the cost of capital as a discount or hurdle rate to evaluate proposed investment projects. Projects offering expected returns that exceed the cost of capital create value for the firm.</code>
+            <div class="f-note">资本成本是投资者对企业资产所要求的预期回报率。预期回报超过资本成本的项目为企业创造价值。</div>
+          </div>
+
+          <h3>一、资本成本与价值判断</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>情况</th><th>结果</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>回报率 = 资本成本</td><td>企业价值不受影响</td></tr>
+                <tr><td>回报率 > 资本成本</td><td>✅ 企业价值增加</td></tr>
+                <tr><td>回报率 < 资本成本</td><td>❌ 企业价值减少</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>二、影响无风险利率的因素</h3>
+          <div class="mindmap">
+            <div class="mind-center">无风险利率影响因素</div>
+            <div class="mind-branches">
+              <div class="mind-branch ch8"><strong>⏱️ 投资期限</strong>期限越长，利率通常越高（期限溢价）</div>
+              <div class="mind-branch ch8"><strong>💧 流动性</strong>资产流动性越低，要求收益越高</div>
+              <div class="mind-branch ch8"><strong>📈 投资需求</strong>需求旺盛→利率上升；需求下降→利率下降</div>
+              <div class="mind-branch ch8"><strong>🏛️ 财政赤字</strong>政府借贷增加推高利率</div>
+              <div class="mind-branch ch8"><strong>🧾 税收</strong>影响税后实际收益率</div>
+            </div>
+          </div>
+
+          <h3>三、影响跨国公司资本结构的主要因素</h3>
+          <div class="compare-grid">
+            <div class="compare-item">
+              <h5>📊 东道国市场因素</h5>
+              <ul>
+                <li>成长性良好企业：投资者愿意付出较高代价购买股票</li>
+                <li>股权融资易造成管理权旁落，降低现有股东收益</li>
+                <li>因此企业更倾向债务融资→加大财务杠杆→提高每股收益</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>🏦 贷款银行和评级机构态度</h5>
+              <ul>
+                <li>银行和评级机构态度决定融资成败</li>
+                <li>三大评级机构：标普(S&P)、穆迪(Moody's)、惠誉(Fitch)</li>
+                <li>信用等级高→更容易获得贷款→债务比例较高</li>
+                <li>管理能力也是影响债务比例的重要因素</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>🧾 税收（税盾效应）</h5>
+              <ul>
+                <li>债务利息可在<strong>税前支付</strong>→减少应税所得→少交所得税</li>
+                <li>股利在<strong>税后支付</strong>，不能享受税收优惠</li>
+                <li>企业所得税具有<strong>税盾（Tax Shield）作用</strong></li>
+                <li>税率越高→高杠杆→获得更多税收优惠</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="highlight-box">
+            <div class="label">💡 税盾效应公式（KaTeX 渲染）</div>
+            $$\text{税盾价值} = D \times r_d \times T$$
+            其中：$D$ = 债务金额，$r_d$ = 债务利率，$T$ = 企业所得税税率<br>
+            <strong>例：</strong>债务1000万，利率5%，税率25%，年税盾 $= 1000 \times 5\% \times 25\% = 12.5$ 万元
+          </div>
+
+          <h3>四、国家风险对资本结构的四维度影响</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>风险维度</th><th>影响机制</th><th>资本结构应对策略</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="pill blue">① 股权限制</span></td>
+                  <td>金融业、高技术产业外资准入门槛高；限制外资并购；限制外资持股；限制向外资放贷</td>
+                  <td>尽快本土化，根据当地情况合理安排资本结构</td>
+                </tr>
+                <tr>
+                  <td><span class="pill orange">② 财政货币政策</span></td>
+                  <td>税率、利率变化改变资金供求关系和资本流向，造成资金成本波动</td>
+                  <td>债务成本降低→扩大债务融资，提高杠杆率<br>债务成本升高→扩大权益融资</td>
+                </tr>
+                <tr>
+                  <td><span class="pill green">③ 汇率政策</span></td>
+                  <td>东道国货币贬值→汇回现金流折算本币减少<br>东道国货币升值→汇回现金流折算本币增加</td>
+                  <td>贬值预期→增加负债，减少汇回，降低外币风险头寸<br>升值预期→降低杠杆，增加股权融资</td>
+                </tr>
+                <tr>
+                  <td><span class="pill red">④ 征收风险</span></td>
+                  <td>发展中国家存在较大征收风险</td>
+                  <td>尽量在东道国进行债务融资→高财务杠杆→增强当地债权人利益纽带→债权人向政府施压→减少损失</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>五、典型案例：中海油资本结构动态优化</h3>
+          <div class="case-box">
+            <div class="case-title">📋 中海油跨国资本结构管理</div>
+            <p>
+              <strong>目标资本结构</strong>：债务融资占40%，股权融资占60%<br>
+              <strong>两个子公司资产规模大体相同</strong>：
+            </p>
+          </div>
+
+          <div class="compare-grid">
+            <div class="compare-item">
+              <h5>🇦🇴 安哥拉子公司</h5>
+              <ul>
+                <li>债务融资比例：<strong style="color:#c62828;">60%（超目标20%）</strong></li>
+                <li>原因：没有资格在当地发行股票融资，只能依靠银行提供贷款</li>
+              </ul>
+            </div>
+            <div class="compare-item">
+              <h5>🇨🇦 加拿大子公司</h5>
+              <ul>
+                <li>股权融资比例：<strong style="color:#2e7d32;">80%（超目标20%）</strong></li>
+                <li>原因：上市公司，可发行股票；加拿大石油行业市盈率较高；加元汇率稳定，外汇风险低</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="highlight-box success">
+            <div class="label">✅ 综合优化结论</div>
+            尽管两个子公司都偏离了40%/60%的目标，但二者具有<strong>互补性</strong>，综合起来可满足母公司资本结构目标。<br>
+            ➡️ 跨国公司通过合理安排、动态优化子公司的资本结构，仍可实现整体管理目标。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 测验区 ========== -->
+  <div id="quiz" style="margin-top:40px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <h2 style="color:var(--primary);font-size:1.4rem;">📝 随堂测验</h2>
+      <span class="pill blue">共10题</span>
+      <button class="calc-btn" onclick="resetQuiz()" style="margin-left:auto;">🔄 重新测试</button>
+    </div>
+
+    <div class="quiz-score" id="quiz-score"></div>
+
+    <!-- Q1 -->
+    <div class="quiz-question" id="q1">
+      <div class="quiz-q">
+        <span class="q-num">1</span>
+        国际直接投资（FDI）的定义是：投资者跨越国界，通过什么手段掌握和控制国外企业经营活动？
+      </div>
+      <div class="quiz-options" data-correct="A">
+        <div class="quiz-option" data-opt="A" onclick="selectOpt(this, 'q1')">
+          <span class="opt-letter">A</span> 创立、收购等手段
+        </div>
+        <div class="quiz-option" data-opt="B" onclick="selectOpt(this, 'q1')">
+          <span class="opt-letter">B</span> 仅通过股票投资
+        </div>
+        <div class="quiz-option" data-opt="C" onclick="selectOpt(this, 'q1')">
+          <span class="opt-letter">C</span> 仅通过银行贷款
+        </div>
+        <div class="quiz-option" data-opt="D" onclick="selectOpt(this, 'q1')">
+          <span class="opt-letter">D</span> 仅通过出口商品
+        </div>
+      </div>
+      <div class="quiz-feedback" id="f1"></div>
+      <button class="quiz-btn" id="b1" onclick="checkAns('q1','A')">确认答案</button>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-question" id="q2">
+      <div class="quiz-q">
+        <span class="q-num">2</span>
+        契约式合营（合作企业）在中国可以是什么法律形式？
+      </div>
+      <div class="quiz-options" data-correct="C">
+        <div class="quiz-option" data-opt="A" onclick="selectOpt(this, 'q2')">
+          <span class="opt-letter">A</span> 只能是股份有限公司
+        </div>
+        <div class="quiz-option" data-opt="B" onclick="selectOpt(this, 'q2')">
+          <span class="opt-letter">B</span> 只能是有限责任公司
+        </div>
+        <div class="quiz-option" data-opt="C" onclick="selectOpt(this, 'q2')">
+          <span class="opt-letter">C</span> 可以是企业法人（负有限责任），也可以不是法人（类似合伙企业）
+        </div>
+        <div class="quiz-option" data-opt="D" onclick="selectOpt(this, 'q2')">
+          <span class="opt-letter">D</span> 只能是独资企业
+        </div>
+      </div>
+      <div class="quiz-feedback" id="f2"></div>
+      <button class="quiz-btn" id="b2" onclick="checkAns('q2','C')">确认答案</button>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-question" id="q3">
+      <div class="quiz-q">
+        <span class="q-num">3</span>
+        下列哪个不是影响子公司现金流的因素？
+      </div>
+      <div class="quiz-options" data-correct="B">
+        <div class="quiz-option" data-opt="A" onclick="selectOpt(this, 'q3')">
+          <span class="opt-letter">A</span> 通货膨胀
+        </div>
+        <div class="quiz-option" data-opt="B" onclick="selectOpt(this, 'q3')">
+          <span class="opt-letter">B</span> 汇率制度（固定/浮动）
+        </div>
+        <div class="quiz-option" data-opt="C" onclick="selectOpt(this, 'q3')">
+          <span class="opt-letter">C</span> 存货水平
+        </div>
+        <div class="quiz-option" data-opt="D" onclick="selectOpt(this, 'q3')">
+          <span class="opt-letter">D</span> 产品销售
+        </div>
+      </div>
+      <div class="quiz-feedback" id="f3"></div>
+      <button class="quiz-btn" id="b3" onclick="checkAns('q3','B')">确认答案</button>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-question" id="q4">
+      <div class="quiz-q">
+        <span class="q-num">4</span>
+        关于"一带一路"倡议，以下说法正确的是？
+      </div>
+      <div class="quiz-options" data-correct="D">
+        <div class="quiz-option" data-opt="A" onclick="selectOpt(this, 'q4')">
+          <span class="opt-letter">A</span> 2013年9月由联合国提出
+        </div>
+        <div class="quiz-option" data-opt="B" onclick="selectOpt(this, 'q4')">
+          <span class="opt-letter">B</span> 仅涉及亚洲国家
+        </div>
+        <div class="quiz-option" data-opt="C" onclick="selectOpt(this, 'q4')">
+          <span class="opt-letter">C</span> 目标包括：政策沟通、设施联通、贸易相通、资金流通、人心相通
+        </div>
+        <div class="quiz-option" data-opt="D" onclick="selectOpt(this, 'q4')">
+          <span class="opt-letter">D</span> 以上全部正确
+        </div>
+      </div>
+      <div class="quiz-feedback" id="f4"></div>
+      <button class="quiz-btn" id="b4" onclick="checkAns('q4','D')">确认答案</button>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-question" id="q5">
+      <div class="quiz-q">
+        <span class="q-num">5</span>
+        下列哪项不是跨国公司现金管理技术？
+      </div>
+      <div class="quiz-options" data-correct="D">
+        <div class="quiz-option" data-opt="A" onclick="selectOpt(this, 'q5')">
+          <span class="opt-letter">A</span> 收支两条线
+        </div>
+        <div class="quiz-option" data-opt="B" onclick="selectOpt(this, 'q5')">
+          <span class="opt-letter">B</span> 净额结算
+        </div>
+        <div class="quiz-option" data-opt="C" onclick="selectOpt(this, 'q5')">
+          <span class="opt-letter">C</span> 加速清收
+        </div>
+        <div class="quiz-option" data-opt="D" onclick="selectOpt(this, 'q5')">
+          <span class="opt-letter">D</span> 发行股票
+        </div>
+      </div>
+      <div class="quiz-feedback" id="f5"></div>
+      <button class="quiz-btn" id="b5" onclick="checkAns('q5','D')">确认答案</button>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-question" id="q6">
+      <div class="quiz-q">
+        <span class="q-num">6</span>
+        NPV公式中，若NPV>0，意味着什么？
+      </div>
+      <div class="quiz-options" data-correct="A">
+        <div class="quiz-option" data-opt="A" onclick="selectOpt(this, 'q6')">
+          <span class="opt-letter">A</span> 投资项目可行，预期收益超过资本成本，企业价值增加
+        </div>
+        <div class="quiz-option" data-opt="B" onclick="selectOpt(this, 'q6')">
+          <span class="opt-letter">B</span> 投资项目亏损，应立即终止
+        </div>
+        <div class="quiz-option" data-opt="C" onclick="selectOpt(this, 'q6')">
+          <span class="opt-letter">C</span> 投资项目回报率等于资本成本
+        </div>
+        <div class="quiz-option" data-opt="D" onclick="selectOpt(this, 'q6')">
+          <span class="opt-letter">D</span> 投资项目无风险
+        </div>
+      </div>
+      <div class="quiz-feedback" id="f6"></div>
+      <button class="quiz-btn" id="b6" onclick="checkAns('q6','A')">确认答案</button>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-question" id="q7">
+      <div class="quiz-q">
+        <span class="q-num">7</span>
+        税盾效应（Tax Shield）是指什么？
+      </div>
+      <div class="quiz-options" data-correct="B">
+        <div class="quiz-option" data-opt="A" onclick="selectOpt(this, 'q7')">
+          <span class="opt-letter">A</span> 股利在税后支付可减少税负
+        </div>
+        <div class="quiz-option" data-opt="B" onclick="selectOpt(this, 'q7')">
+          <span class="opt-letter">B</span> 债务利息在税前支付可减少应税所得，从而少交所得税
+        </div>
+        <div class="quiz-option" data-opt="C" onclick="selectOpt(this, 'q7')">
+          <span class="opt-letter">C</span> 股票分红免税
+        </div>
+        <div class="quiz-option" data-opt="D" onclick="selectOpt(this, 'q7')">
+          <span class="opt-letter">D</span> 增值税的抵扣机制
+        </div>
+      </div>
+      <div class="quiz-feedback" id="f7"></div>
+      <button class="quiz-btn" id="b7" onclick="checkAns('q7','B')">确认答案</button>
+    </div>
+
+    <!-- Q8 -->
+    <div class="quiz-question" id="q8">
+      <div class="quiz-q">
+        <span class="q-num">8</span>
+        当东道国货币预期贬值时，跨国公司应如何调整资本结构？
+      </div>
+      <div class="quiz-options" data-correct="A">
+        <div class="quiz-option" data-opt="A" onclick="selectOpt(this, 'q8')">
+          <span class="opt-letter">A</span> 增加子公司负债，减少汇回母公司的资金，降低外币风险头寸
+        </div>
+        <div class="quiz-option" data-opt="B" onclick="selectOpt(this, 'q8')">
+          <span class="opt-letter">B</span> 增加股权融资比例
+        </div>
+        <div class="quiz-option" data-opt="C" onclick="selectOpt(this, 'q8')">
+          <span class="opt-letter">C</span> 将所有资金汇回母公司
+        </div>
+        <div class="quiz-option" data-opt="D" onclick="selectOpt(this, 'q8')">
+          <span class="opt-letter">D</span> 减少所有对外投资
+        </div>
+      </div>
+      <div class="quiz-feedback" id="f8"></div>
+      <button class="quiz-btn" id="b8" onclick="checkAns('q8','A')">确认答案</button>
+    </div>
+
+    <!-- Q9 -->
+    <div class="quiz-question" id="q9">
+      <div class="quiz-q">
+        <span class="q-num">9</span>
+        中海油案例中，安哥拉子公司的实际债务比例是？
+      </div>
+      <div class="quiz-options" data-correct="C">
+        <div class="quiz-option" data-opt="A" onclick="selectOpt(this, 'q9')">
+          <span class="opt-letter">A</span> 20%
+        </div>
+        <div class="quiz-option" data-opt="B" onclick="selectOpt(this, 'q9')">
+          <span class="opt-letter">B</span> 40%
+        </div>
+        <div class="quiz-option" data-opt="C" onclick="selectOpt(this, 'q9')">
+          <span class="opt-letter">C</span> 60%（超目标，因无法在当地发行股票）
+        </div>
+        <div class="quiz-option" data-opt="D" onclick="selectOpt(this, 'q9')">
+          <span class="opt-letter">D</span> 80%
+        </div>
+      </div>
+      <div class="quiz-feedback" id="f9"></div>
+      <button class="quiz-btn" id="b9" onclick="checkAns('q9','C')">确认答案</button>
+    </div>
+
+    <!-- Q10 -->
+    <div class="quiz-question" id="q10">
+      <div class="quiz-q">
+        <span class="q-num">10</span>
+        根据2024年数据，以下关于外商在华直接投资的说法，<strong>正确</strong>的是？
+      </div>
+      <div class="quiz-options" data-correct="B">
+        <div class="quiz-option" data-opt="A" onclick="selectOpt(this, 'q10')">
+          <span class="opt-letter">A</span> 欧盟是2024年对华投资额最大的单一来源地
+        </div>
+        <div class="quiz-option" data-opt="B" onclick="selectOpt(this, 'q10')">
+          <span class="opt-letter">B</span> 新加坡已连续12年成为对华FDI最大单一来源地，2024年对华投资额108.5亿美元（占9.3%）
+        </div>
+        <div class="quiz-option" data-opt="C" onclick="selectOpt(this, 'q10')">
+          <span class="opt-letter">C</span> 2024年全国新设外商投资企业数量同比下降约10%
+        </div>
+        <div class="quiz-option" data-opt="D" onclick="selectOpt(this, 'q10')">
+          <span class="opt-letter">D</span> 美国是2024年对华投资增速最快的来源地
+        </div>
+      </div>
+      <div class="quiz-feedback" id="f10"></div>
+      <button class="quiz-btn" id="b10" onclick="checkAns('q10','B')">确认答案</button>
+    </div>
+  </div>
+
+  <!-- ========== NPV计算器 ========== -->
+  <div id="calc" style="margin-top:40px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <h2 style="color:var(--primary);font-size:1.4rem;">🧮 NPV计算器</h2>
+      <span class="pill blue">净现值一键计算</span>
+    </div>
+
+    <div class="calc-section">
+      <div class="calc-title">📐 日光公司法国投资案例 — NPV计算器</div>
+      <p style="font-size:0.88rem;color:var(--muted);margin-bottom:16px;">
+        公式：$NPV = -I + \displaystyle\sum_{t=1}^{n}\frac{C_t}{(1+r)^t} + \frac{SV}{(1+r)^n}$
+      </p>
+      <div class="calc-row">
+        <label>初始投资 I（万元）：</label>
+        <input type="number" id="npv-I" placeholder="如：5710.77" value="5710.77">
+      </div>
+      <div class="calc-row">
+        <label>年现金流 Ct（万元）：</label>
+        <input type="number" id="npv-C" placeholder="如：409.6" value="409.6">
+      </div>
+      <div class="calc-row">
+        <label>残值 SV（万元）：</label>
+        <input type="number" id="npv-SV" placeholder="如：4527.23" value="4527.23">
+      </div>
+      <div class="calc-row">
+        <label>折现率 r（%）：</label>
+        <input type="number" id="npv-r" placeholder="如：10" value="10" step="0.1">
+      </div>
+      <div class="calc-row">
+        <label>投资年限 n（年）：</label>
+        <input type="number" id="npv-n" placeholder="如：4" value="4">
+      </div>
+      <div style="margin-top:14px;">
+        <button class="calc-btn" onclick="calcNPV()">🧮 计算NPV</button>
+        <button class="calc-btn reset" onclick="resetCalc()">🔄 重置</button>
+      </div>
+      <div class="calc-result" id="npv-result"></div>
+    </div>
+
+    <!-- 预期NPV计算器 -->
+    <div class="calc-section">
+      <div class="calc-title">📊 预期净现值 E(NPV) 计算器（含国家风险）</div>
+      <p style="font-size:0.88rem;color:var(--muted);margin-bottom:14px;">
+        公式：$E(NPV) = \displaystyle\sum_{i} NPV_i \times P_i$，输入各情形的NPV和概率
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>情形</th><th>NPV（万元）</th><th>概率</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>情形1（低预提税+高清算价值）</td>
+              <td><input type="number" id="enpv1" value="2410" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;"></td>
+              <td><input type="number" id="ep1" value="0.42" step="0.01" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;"></td>
+            </tr>
+            <tr>
+              <td>情形2（低预提税+低清算价值）</td>
+              <td><input type="number" id="enpv2" value="1569.15" step="0.01" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;"></td>
+              <td><input type="number" id="ep2" value="0.18" step="0.01" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;"></td>
+            </tr>
+            <tr>
+              <td>情形3（高预提税+高清算价值）</td>
+              <td><input type="number" id="enpv3" value="1723.64" step="0.01" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;"></td>
+              <td><input type="number" id="ep3" value="0.28" step="0.01" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;"></td>
+            </tr>
+            <tr>
+              <td>情形4（高预提税+低清算价值）</td>
+              <td><input type="number" id="enpv4" value="882.79" step="0.01" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;"></td>
+              <td><input type="number" id="ep4" value="0.12" step="0.01" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:12px;">
+        <button class="calc-btn" onclick="calcENPV()">📊 计算预期NPV</button>
+        <button class="calc-btn reset" onclick="document.getElementById('enpv-result').classList.remove('show')">🔄 重置</button>
+      </div>
+      <div class="calc-result" id="enpv-result"></div>
+    </div>
+
+    <!-- 税盾计算器 -->
+    <div class="calc-section">
+      <div class="calc-title">🧾 税盾价值计算器</div>
+      <div class="calc-row">
+        <label>债务金额（万元）：</label>
+        <input type="number" id="ts-debt" placeholder="如：1000" value="1000">
+      </div>
+      <div class="calc-row">
+        <label>年利率（%）：</label>
+        <input type="number" id="ts-rate" placeholder="如：5" value="5" step="0.1">
+      </div>
+      <div class="calc-row">
+        <label>企业所得税率（%）：</label>
+        <input type="number" id="ts-tax" placeholder="如：25" value="25" step="0.1">
+      </div>
+      <div style="margin-top:10px;">
+        <button class="calc-btn" onclick="calcTaxShield()">🧾 计算税盾价值</button>
+        <button class="calc-btn reset" onclick="document.getElementById('ts-result').classList.remove('show')">🔄 重置</button>
+      </div>
+      <div class="calc-result" id="ts-result"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>王奇《国际金融》课程。参考书目：陈雨露《国际金融》第六版 · 国际直接投资 &amp; 跨国公司资产负债管理 </p>
+  <p style="margin-top:6px;font-size:0.8rem;opacity:0.7;">FDI · 国家风险 · 资本预算 · 资产负债管理</p>
+  <p style="margin-top:6px;font-size:0.78rem;opacity:0.6;">数据来源：商务部《中国外资统计公报2025》、国家统计局</p>
+</footer>
+
+<script>
+// ===== 卡片折叠 =====
+function toggleCard(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// 默认展开所有卡片
+document.querySelectorAll('.card-header').forEach(h => h.classList.add('open'));
+document.querySelectorAll('.card-body').forEach(b => b.classList.add('open'));
+
+// ===== 导航高亮 =====
+const navLinks = document.querySelectorAll('.topnav ul li a');
+const sections = ['overview','ch7','ch8','quiz','calc'];
+window.addEventListener('scroll', () => {
+  let current = 'overview';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < 200) current = id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#'+current) a.classList.add('active');
+  });
+});
+
+// ===== 测验 =====
+let selectedAnswers = {};
+let confirmedCount = 0;
+
+function selectOpt(el, qId) {
+  const parent = el.closest('.quiz-options');
+  parent.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedAnswers[qId] = el.dataset.opt;
+  document.getElementById('b'+qId.slice(1)).classList.add('show');
+}
+
+function checkAns(qId, correct) {
+  const num = qId.slice(1);
+  const selected = selectedAnswers[qId];
+  const feedback = document.getElementById('f'+num);
+  const opts = document.querySelectorAll('#'+qId+' .quiz-option');
+
+  opts.forEach(o => {
+    if (o.dataset.opt === correct) {
+      o.classList.add('correct');
+      o.querySelector('.opt-letter').textContent = '✓';
+    } else if (o.dataset.opt === selected && selected !== correct) {
+      o.classList.add('wrong');
+      o.querySelector('.opt-letter').textContent = '✗';
+    }
+  });
+
+  if (selected === correct) {
+    feedback.className = 'quiz-feedback show correct';
+    feedback.innerHTML = '✅ 回答正确！';
+  } else {
+    feedback.className = 'quiz-feedback show wrong';
+    feedback.innerHTML = '❌ 回答错误。正确答案是 <strong>' + correct + '</strong>。';
+  }
+  document.getElementById('b'+num).style.display = 'none';
+  confirmedCount++;
+  if (confirmedCount === 10) showScore();
+}
+
+function showScore() {
+  let score = 0;
+  const correct = ['A','C','B','D','D','A','B','A','C','D'];
+  for (let i = 1; i <= 10; i++) {
+    if (selectedAnswers['q'+i] === correct[i-1]) score++;
+  }
+  const scoreEl = document.getElementById('quiz-score');
+  scoreEl.classList.add('show');
+  const pct = score * 10;
+  scoreEl.innerHTML = `🎉 测试完成！您的得分：<strong>${score}/10</strong>（${pct}%）`;
+}
+
+function resetQuiz() {
+  location.reload();
+}
+
+// ===== NPV计算 =====
+function calcNPV() {
+  const I = parseFloat(document.getElementById('npv-I').value) || 0;
+  const C = parseFloat(document.getElementById('npv-C').value) || 0;
+  const SV = parseFloat(document.getElementById('npv-SV').value) || 0;
+  const r = (parseFloat(document.getElementById('npv-r').value) || 0) / 100;
+  const n = parseInt(document.getElementById('npv-n').value) || 1;
+
+  if (r === 0) {
+    document.getElementById('npv-result').innerHTML = '❌ 折现率不能为0';
+    document.getElementById('npv-result').classList.add('show');
+    return;
+  }
+
+  let pvCashFlows = 0;
+  for (let t = 1; t <= n; t++) {
+    pvCashFlows += C / Math.pow(1 + r, t);
+  }
+  const pvSV = SV / Math.pow(1 + r, n);
+  const npv = -I + pvCashFlows + pvSV;
+
+  const resultEl = document.getElementById('npv-result');
+  resultEl.classList.add('show');
+  resultEl.innerHTML = `
+    <div style="color:var(--accent);font-weight:700;margin-bottom:8px;">计算结果</div>
+    各年现金流现值之和 = ${pvCashFlows.toFixed(2)} 万元<br>
+    残值现值 = ${pvSV.toFixed(2)} 万元<br>
+    <span style="font-size:1.1em;">NPV = -${I.toFixed(2)} + ${pvCashFlows.toFixed(2)} + ${pvSV.toFixed(2)} = <strong style="color:${npv>=0?'#4caf50':'#f44336'}">${npv.toFixed(2)} 万元</strong></span><br><br>
+    ${npv >= 0 ? '✅ <span style="color:#4caf50;">NPV ≥ 0，项目可行！预期收益超过资本成本。</span>' : '❌ <span style="color:#f44336;">NPV < 0，项目不可行，预期收益不足以覆盖资本成本。</span>'}
+  `;
+}
+
+function resetCalc() {
+  document.getElementById('npv-I').value = '5710.77';
+  document.getElementById('npv-C').value = '409.6';
+  document.getElementById('npv-SV').value = '4527.23';
+  document.getElementById('npv-r').value = '10';
+  document.getElementById('npv-n').value = '4';
+  document.getElementById('npv-result').classList.remove('show');
+}
+
+// ===== 预期NPV计算 =====
+function calcENPV() {
+  const npvs = [
+    parseFloat(document.getElementById('enpv1').value) || 0,
+    parseFloat(document.getElementById('enpv2').value) || 0,
+    parseFloat(document.getElementById('enpv3').value) || 0,
+    parseFloat(document.getElementById('enpv4').value) || 0
+  ];
+  const ps = [
+    parseFloat(document.getElementById('ep1').value) || 0,
+    parseFloat(document.getElementById('ep2').value) || 0,
+    parseFloat(document.getElementById('ep3').value) || 0,
+    parseFloat(document.getElementById('ep4').value) || 0
+  ];
+
+  let enpv = 0;
+  let detail = '';
+  for (let i = 0; i < 4; i++) {
+    enpv += npvs[i] * ps[i];
+    detail += `情形${i+1}: ${npvs[i]} × ${ps[i]} = ${(npvs[i]*ps[i]).toFixed(2)}<br>`;
+  }
+
+  const resultEl = document.getElementById('enpv-result');
+  resultEl.classList.add('show');
+  resultEl.innerHTML = `
+    <div style="color:var(--accent);font-weight:700;margin-bottom:8px;">各情形贡献</div>
+    ${detail}
+    <br><span style="font-size:1.1em;">E(NPV) = <strong style="color:#4caf50;">${enpv.toFixed(2)} 万元</strong></span><br><br>
+    ✅ 考虑国家风险后，预期净现值为正，项目仍具有可行性！
+  `;
+}
+
+// ===== 税盾计算 =====
+function calcTaxShield() {
+  const debt = parseFloat(document.getElementById('ts-debt').value) || 0;
+  const rate = (parseFloat(document.getElementById('ts-rate').value) || 0) / 100;
+  const tax = (parseFloat(document.getElementById('ts-tax').value) || 0) / 100;
+
+  const ts = debt * rate * tax;
+  const resultEl = document.getElementById('ts-result');
+  resultEl.classList.add('show');
+  resultEl.innerHTML = `
+    <div style="color:var(--accent);font-weight:700;margin-bottom:8px;">税盾价值</div>
+    税盾 = 债务金额 × 利率 × 税率<br>
+    = ${debt} × ${(rate*100).toFixed(1)}% × ${(tax*100).toFixed(1)}%<br>
+    = <strong style="color:#4caf50;">${ts.toFixed(2)} 万元/年</strong><br><br>
+    💡 每年可节省所得税 ${ts.toFixed(2)} 万元，这就是债务融资的税盾效应！
+  `;
+}
+
+// ===== 锚点平滑滚动 =====
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+</script>
+
+</body>
+</html>
