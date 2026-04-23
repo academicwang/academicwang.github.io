@@ -225,13 +225,15 @@ h1,h2,h3,h4 { font-family: var(--ff-serif); }
    PUBLICATIONS PAGE
    ═══════════════════════════════════ */
 .page-hero {
-  background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy-mid) 100%);
+  background: url('../images/image.png');
+  background-size: cover;
+  background-position: center;
   padding: 60px 0 50px;
 }
 .page-hero-content { display: flex; flex-direction: column; gap: .4rem; }
-.page-hero .section-eyebrow { color: var(--gold-light); }
-.page-hero .section-title { color: var(--white); }
-.page-hero-sub { font-size: .95rem; color: rgba(255,255,255,.55); margin-top: .5rem; max-width: 500px; }
+.page-hero .section-eyebrow { color: #333; font-weight: 500; }
+.page-hero .section-title { color: #1a1a1a; text-shadow: 1px 1px 3px rgba(255,255,255,0.7); }
+.page-hero-sub { font-size: .95rem; color: #444; margin-top: .5rem; max-width: 500px; }
 
 .pub-section { padding: 60px 0; }
 .pub-filters {
