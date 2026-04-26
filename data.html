@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data — Qi Wang</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* Page Hero */
+    .data-hero {
+      background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy-mid) 100%);
+      padding: 80px 0 60px;
+      text-align: center;
+      color: var(--white);
+      margin-top: 62px;
+    }
+    .data-hero h1 {
+      font-family: var(--ff-serif);
+      font-size: 2.4rem;
+      font-weight: 400;
+      margin-bottom: .5rem;
+      letter-spacing: .01em;
+    }
+    .data-hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.6);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Data Card Grid */
+    .data-section {
+      padding: 50px 0;
+    }
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .data-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+      cursor: pointer;
+    }
+    .data-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .data-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: var(--ivory);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+      color: var(--navy);
+    }
+
+    .data-card h3 {
+      font-family: var(--ff-sans);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .data-card .subtitle {
+      font-size: .85rem;
+      color: var(--text-light);
+      margin-bottom: 16px;
+      font-weight: 400;
+    }
+
+    .data-card p {
+      font-size: .92rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .data-card .meta {
+      display: flex;
+      gap: 16px;
+      font-size: .82rem;
+      color: var(--text-light);
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .data-card .meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .data-card .coming-soon {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--ivory-dark);
+      color: var(--text-light);
+      font-size: .78rem;
+      font-weight: 500;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    /* Section Divider */
+    .section-divider {
+      border: none;
+      height: 1px;
+      background: var(--border);
+      margin: 40px 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .section-header h2 {
+      font-family: var(--ff-serif);
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--navy);
+    }
+    .section-header .count {
+      background: var(--navy);
+      color: var(--white);
+      font-size: .75rem;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+
+    /* Data Table Preview */
+    .data-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-top: 16px;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .86rem;
+    }
+    .data-table th {
+      background: var(--ivory);
+      color: var(--navy);
+      font-weight: 600;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--ivory); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .data-hero { padding: 60px 0 40px; }
+      .data-hero h1 { font-size: 1.8rem; }
+      .data-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">Qi Wang</a>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html"        class="nav-link">About</a></li>
+      <li><a href="publications.html" class="nav-link">Publications</a></li>
+      <li><a href="books.html"        class="nav-link">Books</a></li>
+      <li><a href="teaching.html"     class="nav-link">Teaching</a></li>
+      <li><a href="data.html"         class="nav-link active">Data</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Page Hero -->
+<div class="data-hero">
+  <div class="container">
+    <h1>Research Data</h1>
+    <p>Curated datasets for empirical research on China's capital markets, corporate disclosures, and labor markets.</p>
+  </div>
+</div>
+
+<!-- Data Cards -->
+<div class="container">
+  <div class="data-section">
+    <div class="section-header">
+      <h2>Datasets</h2>
+      <span class="count">3</span>
+    </div>
+
+    <div class="data-grid">
+      <!-- Card 1: Listed Company Basic Data -->
+      <div class="data-card">
+        <div class="data-card-icon">
+          <i class="fas fa-building"></i>
+        </div>
+        <h3>China A-Share Listed Companies — Basic Data</h3>
+        <div class="subtitle">中国A股上市公司基本数据</div>
+        <p>Comprehensive firm-level dataset covering all A-share listed companies on the Shanghai and Shenzhen stock exchanges. Includes company profiles, financial indicators, corporate governance structures, and shareholding information.</p>
+        <div class="meta">
+          <span><i class="fas fa-database"></i> CSMAR / Wind</span>
+          <span><i class="fas fa-calendar"></i> 2000–2024</span>
+        </div>
+        <div class="coming-soon">Data Description &amp; Download</div>
+      </div>
+
+      <!-- Card 2: Annual Report Text Data -->
+      <div class="data-card">
+        <div class="data-card-icon">
+          <i class="fas fa-file-alt"></i>
+        </div>
+        <h3>China A-Share Listed Companies — Annual Report Text Data</h3>
+        <div class="subtitle">中国A股上市公司年报文本数据</div>
+        <p>Full-text corpus of annual reports (MD&A sections) for A-share listed companies. Structured for natural language processing and textual analysis research, including sentiment scoring, topic modeling, and readability metrics.</p>
+        <div class="meta">
+          <span><i class="fas fa-database"></i> CNRDS / CSMAR</span>
+          <span><i class="fas fa-calendar"></i> 2007–2024</span>
+        </div>
+        <div class="coming-soon">Data Description &amp; Download</div>
+      </div>
+
+      <!-- Card 3: Recruitment Data -->
+      <div class="data-card">
+        <div class="data-card-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <h3>China A-Share Listed Companies — Recruitment Data</h3>
+        <div class="subtitle">中国A股上市公司招聘数据</div>
+        <p>Job posting data extracted from major Chinese recruitment platforms linked to A-share listed companies. Covers job titles, skill requirements, salary ranges, education levels, and regional distribution for labor market analysis.</p>
+        <div class="meta">
+          <span><i class="fas fa-database"></i> Web Crawling / API</span>
+          <span><i class="fas fa-calendar"></i> 2015–2024</span>
+        </div>
+        <div class="coming-soon">Data Description &amp; Download</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- Sample Preview Section -->
+  <div class="data-section" style="padding-top: 10px;">
+    <div class="section-header">
+      <h2>Sample Preview</h2>
+      <span class="count">Basic Data Fields</span>
+    </div>
+    <p style="font-size: .92rem; color: var(--text-light); margin-bottom: 20px;">A preview of key variables included in the listed company basic dataset.</p>
+
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Description</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>stkcd</td><td>Stock code (6-digit)</td><td>String</td></tr>
+          <tr><td>shortname</td><td>Company short name</td><td>String</td></tr>
+          <tr><td>industry</td><td>CSRC industry classification</td><td>Categorical</td></tr>
+          <tr><td>listdate</td><td>IPO listing date</td><td>Date</td></tr>
+          <tr><td>total_assets</td><td>Total assets (CNY million)</td><td>Numeric</td></tr>
+          <tr><td>roa</td><td>Return on assets (%)</td><td>Numeric</td></tr>
+          <tr><td>leverage</td><td>Asset-liability ratio</td><td>Numeric</td></tr>
+          <tr><td>top1_holder</td><td>Shareholding ratio of largest shareholder (%)</td><td>Numeric</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- Citation -->
+  <div class="data-section" style="padding-top: 10px; padding-bottom: 60px;">
+    <div class="section-header">
+      <h2>Usage & Citation</h2>
+    </div>
+    <p style="font-size: .92rem; color: var(--text-light); line-height: 1.8;">
+      These datasets are compiled and maintained for academic research purposes. Researchers using these data are kindly requested to cite the original data sources (CSMAR, Wind, CNRDS) and acknowledge this data repository in their publications. For access inquiries or collaboration proposals, please contact via email.
+    </p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2026 Qi Wang</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
