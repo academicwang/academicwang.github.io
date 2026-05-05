@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《金融科技》第6周：决策树基础</title>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  }
+};
+</script>
+<style>
+  :root {
+    --primary: #5B8C5A;
+    --primary-light: #E8F5E9;
+    --secondary: #7B8B6F;
+    --accent: #D4A574;
+    --accent-light: #FFF3E0;
+    --danger: #C97B7B;
+    --danger-light: #FFEBEE;
+    --bg: #FAFBF8;
+    --card-bg: #FFFFFF;
+    --text: #2C3E2D;
+    --text-light: #5A6B5C;
+    --border: #DDE5DD;
+    --shadow: 0 2px 12px rgba(91,140,90,0.08);
+    --shadow-hover: 0 4px 20px rgba(91,140,90,0.14);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 20px; }
+
+  /* Header */
+  .page-header {
+    text-align: center;
+    padding: 50px 20px 40px;
+    background: linear-gradient(135deg, #E8F5E9 0%, #FFF3E0 100%);
+    border-radius: var(--radius);
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%235B8C5A' stroke-width='0.5' opacity='0.2'/%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='%23D4A574' stroke-width='0.5' opacity='0.2'/%3E%3C/svg%3E") no-repeat center;
+    opacity: 0.4;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .page-header .subtitle {
+    color: var(--text-light);
+    font-size: 1.05rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .week-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+
+  /* Section */
+  .section {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.3s;
+  }
+  .section:hover { box-shadow: var(--shadow-hover); }
+  .section-title {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--primary-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+  }
+  .section-title .icon {
+    width: 32px;
+    height: 32px;
+    background: var(--primary-light);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  /* Story Box */
+  .story-box {
+    background: linear-gradient(135deg, #FFF8E1 0%, #FFF3E0 100%);
+    border-left: 4px solid var(--accent);
+    padding: 24px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin: 20px 0;
+  }
+  .story-box h4 {
+    color: #8D6E63;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+  }
+  .story-box p {
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  /* Tree Visualization */
+  .tree-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 10px;
+    overflow-x: auto;
+  }
+  .tree-level {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    position: relative;
+    flex-wrap: wrap;
+  }
+  .tree-node {
+    width: 130px;
+    padding: 14px 10px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+    border: 2px solid transparent;
+  }
+  .tree-node.root {
+    background: linear-gradient(135deg, #C8E6C9, #A5D6A7);
+    color: #1B5E20;
+    border-color: #66BB6A;
+  }
+  .tree-node.internal {
+    background: linear-gradient(135deg, #BBDEFB, #90CAF9);
+    color: #0D47A1;
+    border-color: #42A5F5;
+  }
+  .tree-node.leaf-yes {
+    background: linear-gradient(135deg, #C8E6C9, #81C784);
+    color: #1B5E20;
+    border-color: #66BB6A;
+  }
+  .tree-node.leaf-no {
+    background: linear-gradient(135deg, #FFCDD2, #EF9A9A);
+    color: #B71C1C;
+    border-color: #EF5350;
+  }
+  .tree-node:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  }
+  .tree-node.active {
+    box-shadow: 0 0 0 4px var(--accent);
+  }
+  .tree-node .label {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    margin-top: 4px;
+  }
+  .tree-edge {
+    position: absolute;
+    background: var(--secondary);
+    opacity: 0.4;
+    z-index: 1;
+  }
+  .tree-connector {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    margin: -20px 0 20px;
+    font-size: 0.75rem;
+    color: var(--text-light);
+  }
+  .tree-connector span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px;
+    background: var(--primary-light);
+    border-radius: 12px;
+  }
+
+  /* Annotation Panel */
+  .anno-panel {
+    background: var(--primary-light);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    margin-top: 20px;
+    display: none;
+  }
+  .anno-panel.show { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+  .anno-panel h4 {
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 1.05rem;
+  }
+  .anno-panel .node-type {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .anno-panel .node-type.root { background: #C8E6C9; color: #1B5E20; }
+  .anno-panel .node-type.internal { background: #BBDEFB; color: #0D47A1; }
+  .anno-panel .node-type.leaf { background: #FFCDD2; color: #B71C1C; }
+
+  /* Tabs */
+  .tab-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--text-light);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.3s;
+    font-weight: 500;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  }
+  .tab-btn:hover { color: var(--primary); background: var(--primary-light); }
+  .tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    background: var(--primary-light);
+  }
+  .tab-panel { display: none; animation: fadeIn 0.4s ease; }
+  .tab-panel.active { display: block; }
+
+  /* Collapsible */
+  .collapse-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(90deg, var(--primary-light), transparent);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.3s;
+    border: 1px solid var(--border);
+  }
+  .collapse-header:hover { background: linear-gradient(90deg, #D7EDDA, transparent); }
+  .collapse-header h4 { color: var(--primary); font-size: 1rem; }
+  .collapse-icon {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+    font-size: 1.2rem;
+    color: var(--primary);
+  }
+  .collapse-icon.open { transform: rotate(180deg); }
+  .collapse-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.3s ease;
+    background: #FAFAFA;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  }
+  .collapse-body.open {
+    max-height: 2000px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-top: none;
+  }
+
+  /* Formula Box */
+  .formula-box {
+    background: #F5F7F5;
+    border-radius: var(--radius-sm);
+    padding: 20px 24px;
+    margin: 16px 0;
+    border-left: 4px solid var(--primary);
+    overflow-x: auto;
+  }
+  .formula-box .mjx-chtml { font-size: 1.05em !important; }
+  .formula-caption {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* Code Block */
+  .code-block {
+    background: #2C3E2D;
+    color: #E8F5E9;
+    padding: 20px 24px;
+    border-radius: var(--radius-sm);
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+  .code-block .kw { color: #81C784; font-weight: bold; }
+  .code-block .fn { color: #64B5F6; }
+  .code-block .cm { color: #9E9E9E; font-style: italic; }
+  .code-block .var { color: #FFB74D; }
+
+  /* Interactive Demo */
+  .demo-container {
+    background: linear-gradient(135deg, #E8F5E9, #F1F8E9);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin: 20px 0;
+  }
+  .dataset-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.9rem;
+  }
+  .dataset-table th {
+    background: var(--primary);
+    color: white;
+    padding: 10px 12px;
+    text-align: center;
+    font-weight: 500;
+  }
+  .dataset-table td {
+    padding: 10px 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .dataset-table tr:nth-child(even) { background: rgba(91,140,90,0.04); }
+  .dataset-table tr:hover { background: rgba(91,140,90,0.08); }
+  .dataset-table tr.selected { background: rgba(212,165,116,0.2) !important; }
+  .split-controls {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .split-controls select {
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border);
+    background: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    min-width: 140px;
+  }
+  .split-controls select:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  .btn {
+    padding: 10px 22px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+  .btn:hover { background: #4A7A49; transform: translateY(-1px); }
+  .btn.secondary { background: var(--accent); }
+  .btn.secondary:hover { background: #C9966A; }
+  .result-panel {
+    background: white;
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    margin-top: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .result-panel h5 {
+    color: var(--primary);
+    margin-bottom: 12px;
+    font-size: 1rem;
+  }
+  .gini-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  .gini-bar .bar-label {
+    width: 100px;
+    font-size: 0.85rem;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .gini-bar .bar-track {
+    flex: 1;
+    height: 24px;
+    background: #E0E0E0;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .gini-bar .bar-fill {
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.6s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    font-size: 0.75rem;
+    color: white;
+    font-weight: 600;
+  }
+  .gini-bar .bar-fill.good { background: linear-gradient(90deg, #66BB6A, #43A047); }
+  .gini-bar .bar-fill.medium { background: linear-gradient(90deg, #FFB74D, #F57C00); }
+  .gini-bar .bar-fill.bad { background: linear-gradient(90deg, #EF5350, #C62828); }
+
+  /* Flowchart */
+  .flowchart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 20px 10px;
+  }
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border-radius: var(--radius-sm);
+    min-width: 280px;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+  }
+  .flow-step .step-num {
+    width: 36px;
+    height: 36px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .flow-step .step-content { flex: 1; }
+  .flow-step .step-content h5 {
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .flow-step .step-content p {
+    font-size: 0.85rem;
+    color: var(--text-light);
+  }
+  .flow-arrow {
+    font-size: 1.5rem;
+    color: var(--primary);
+    opacity: 0.6;
+    margin: 4px 0;
+  }
+  .flow-step.start { background: var(--primary-light); border: 1px solid #C8E6C9; }
+  .flow-step.process { background: #E3F2FD; border: 1px solid #BBDEFB; }
+  .flow-step.decision { background: var(--accent-light); border: 1px solid #FFE0B2; }
+  .flow-step.end { background: #F3E5F5; border: 1px solid #E1BEE7; }
+
+  /* Comparison Table */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.9rem;
+  }
+  .compare-table th {
+    background: var(--primary);
+    color: white;
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .compare-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  .compare-table tr:nth-child(even) { background: rgba(91,140,90,0.03); }
+  .compare-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .tag.gini { background: #E3F2FD; color: #1565C0; }
+  .tag.entropy { background: #F3E5F5; color: #7B1FA2; }
+
+  /* Quiz */
+  .quiz-list { list-style: none; counter-reset: quiz; }
+  .quiz-list li {
+    counter-increment: quiz;
+    padding: 20px 20px 20px 56px;
+    margin-bottom: 16px;
+    background: #FAFAFA;
+    border-radius: var(--radius-sm);
+    position: relative;
+    border-left: 3px solid var(--accent);
+  }
+  .quiz-list li::before {
+    content: counter(quiz);
+    position: absolute;
+    left: 16px;
+    top: 20px;
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* Pruning */
+  .pruning-visual {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .prune-box {
+    text-align: center;
+    padding: 20px;
+    border-radius: var(--radius-sm);
+    min-width: 200px;
+  }
+  .prune-box.before { background: var(--danger-light); border: 2px dashed var(--danger); }
+  .prune-box.after { background: var(--primary-light); border: 2px solid var(--primary); }
+  .prune-box h5 { margin-bottom: 10px; font-size: 1rem; }
+  .prune-arrow {
+    font-size: 2rem;
+    color: var(--primary);
+    align-self: center;
+  }
+
+  /* Highlight */
+  .highlight {
+    background: linear-gradient(transparent 60%, rgba(212,165,116,0.3) 60%);
+    padding: 0 2px;
+  }
+  .key-point {
+    background: var(--primary-light);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-left: 4px solid var(--primary);
+  }
+  .key-point p { margin-bottom: 6px; }
+  .key-point p:last-child { margin-bottom: 0; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .page-header h1 { font-size: 1.5rem; }
+    .section { padding: 20px; }
+    .tree-node { width: 100px; padding: 10px 6px; font-size: 0.75rem; }
+    .tree-connector { gap: 30px; font-size: 0.65rem; }
+    .split-controls { flex-direction: column; align-items: stretch; }
+    .split-controls select { width: 100%; }
+    .flow-step { min-width: unset; }
+    .tab-btn { padding: 8px 14px; font-size: 0.85rem; }
+    .gini-bar .bar-label { width: 70px; font-size: 0.75rem; }
+    .tree-level { gap: 10px; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--secondary); }
+
+  .formula-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 16px 0;
+  }
+  .formula-col {
+    flex: 1;
+    min-width: 280px;
+    background: #F5F7F5;
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    border-left: 4px solid var(--primary);
+  }
+  .formula-col h5 {
+    color: var(--primary);
+    margin-bottom: 12px;
+    font-size: 1rem;
+  }
+
+  .mjx-chtml { font-size: 1.02em !important; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ============ HEADER ============ -->
+<div class="page-header">
+  <div class="week-badge">第 6 周</div>
+  <h1>决策树基础</h1>
+  <p class="subtitle">从"一路问到底"的思维方式，理解决策树如何帮你做选择</p>
+
+  <div class="teacher-info" style="margin-top:15px;padding:12px 20px;background:linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);border-left:4px solid #5B8C5A;border-radius:8px;display:inline-block;text-align:left;">
+    <div style="font-size:15px;font-weight:600;color:#2c3e50;margin-bottom:6px;">👨‍🏫 授课教师</div>
+    <div style="font-size:14px;color:#495057;line-height:1.8;">
+      <strong style="color:#2c3e50;">王奇</strong> &nbsp;|&nbsp; 四川大学商学院 &nbsp;|&nbsp; 副教授 &nbsp;|&nbsp; 硕士生导师<br>
+      📧 <a href="mailto:qiwangphd@scu.edu.cn" style="color:#5B8C5A;text-decoration:none;">qiwangphd@scu.edu.cn</a> &nbsp;|&nbsp; 🔬 研究方向：人工智能金融
+    </div>
+  </div>
+</div>
+
+<!-- ============ COURSE INTRO ============ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">&#127795;</span>
+    课程导入：银行经理的一天
+  </div>
+  <div class="story-box">
+    <h4>&#127968; 生活场景：要不要批准这笔贷款？</h4>
+    <p>小王是某银行信贷部的审批员。每天他都要面对 dozens 份贷款申请，需要快速决定：<strong>批</strong> 还是 <strong>不批</strong>？</p>
+    <p>工作多年的小王脑子里有一套"决策流程"——</p>
+    <p><em>"先看申请人有没有稳定工作？没有的话直接拒绝。有的话再看月收入多少？超过1万基本能通过，不到1万还得看信用记录......"</em></p>
+    <p>这套<strong>"不断提问、逐步缩小范围"</strong>的思考方式，本质上就是一棵<strong>决策树</strong>！</p>
+  </div>
+  <p style="margin-top:16px;">决策树（Decision Tree）是机器学习中<span class="highlight">最直观、最像人类思考方式</span>的算法之一。它通过一系列"是非问题"把数据分到不同的组，最终给出预测结果。本周我们就来学习这棵"智能问答树"的工作原理。</p>
+</div>
+
+<!-- ============ TREE STRUCTURE ============ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">&#127795;</span>
+    决策树的核心结构
+  </div>
+  <p>一棵决策树由三种基本节点组成。试着<strong>点击下面的节点</strong>，看看每部分的作用：</p>
+
+  <div class="tree-container">
+    <!-- Root -->
+    <div class="tree-level">
+      <div class="tree-node root" onclick="showAnno('root')">
+        <strong>月收入 ≥ 1万？</strong>
+        <div class="label">&#11088; 根节点</div>
+      </div>
+    </div>
+    <div class="tree-connector"><span>&#11015; 是 / 否</span></div>
+    <!-- Internal -->
+    <div class="tree-level">
+      <div class="tree-node internal" onclick="showAnno('internal1')">
+        <strong>信用评分 ≥ 700？</strong>
+        <div class="label">&#128161; 内部节点</div>
+      </div>
+      <div class="tree-node internal" onclick="showAnno('internal2')">
+        <strong>有房产抵押？</strong>
+        <div class="label">&#128161; 内部节点</div>
+      </div>
+    </div>
+    <div class="tree-connector"><span>&#11015; 是 / 否</span><span>&#11015; 是 / 否</span></div>
+    <!-- Leaves -->
+    <div class="tree-level">
+      <div class="tree-node leaf-yes" onclick="showAnno('leaf')">
+        <strong>批准贷款</strong>
+        <div class="label">&#127809; 叶节点</div>
+      </div>
+      <div class="tree-node leaf-no" onclick="showAnno('leaf')">
+        <strong>拒绝贷款</strong>
+        <div class="label">&#127809; 叶节点</div>
+      </div>
+      <div class="tree-node leaf-yes" onclick="showAnno('leaf')">
+        <strong>批准贷款</strong>
+        <div class="label">&#127809; 叶节点</div>
+      </div>
+      <div class="tree-node leaf-no" onclick="showAnno('leaf')">
+        <strong>拒绝贷款</strong>
+        <div class="label">&#127809; 叶节点</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotation Panels -->
+  <div id="anno-root" class="anno-panel">
+    <span class="node-type root">&#11088; 根节点 (Root Node)</span>
+    <p><strong>定义：</strong>决策树的起点，第一个用于划分数据的特征。</p>
+    <p><strong>类比：</strong>就像玩"20个问题"游戏时你问的第一个问题——它决定了后续所有问题的走向。</p>
+    <p><strong>特点：</strong>根节点的选择至关重要，通常用不纯度度量来找出"最有区分力"的特征。</p>
+  </div>
+  <div id="anno-internal" class="anno-panel">
+    <span class="node-type internal">&#128161; 内部节点 (Internal Node)</span>
+    <p><strong>定义：</strong>树中间层的节点，每个内部节点对应一个特征的测试条件。</p>
+    <p><strong>类比：</strong>类似审贷流程中中间的审核环节——"还需要进一步确认这个信息"。</p>
+    <p><strong>特点：</strong>内部节点有 outgoing 分支（通常是2条，CART算法），指向下一层节点。</p>
+  </div>
+  <div id="anno-internal2" class="anno-panel">
+    <span class="node-type internal">&#128161; 内部节点 (Internal Node)</span>
+    <p><strong>同上。</strong>此节点的判断条件是"有房产抵押"，用于进一步区分月收入低于1万的申请人。</p>
+    <p>有房产抵押的申请人即使收入不高，因为有资产担保，风险较低，可以批准。</p>
+  </div>
+  <div id="anno-leaf" class="anno-panel">
+    <span class="node-type leaf">&#127809; 叶节点 (Leaf Node)</span>
+    <p><strong>定义：</strong>树的末端节点，不再继续分裂，直接输出最终的预测类别（如"批准"或"拒绝"）。</p>
+    <p><strong>类比：</strong>终于做决定了！就像法官最后敲下法槌——"本庭宣判：批准/驳回"。</p>
+    <p><strong>特点：</strong>叶节点包含的样本可能不"纯净"（即全属于一类），此时按<strong>多数投票</strong>决定该叶的类别。</p>
+  </div>
+
+  <div class="key-point">
+    <p><strong>&#128161; 一句话总结：</strong>决策树 = 根节点（开场提问）+ 内部节点（层层追问）+ 叶节点（给出结论）。整个过程就像侦探破案，通过线索一步步缩小嫌疑人范围！</p>
+  </div>
+</div>
+
+<!-- ============ IMPURITY MEASURES ============ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">&#9889;</span>
+    节点不纯度度量：基尼指数 vs 信息熵
+  </div>
+  <p>决策树的关键是：<span class="highlight">每次分裂，都要让子节点"越来越纯净"</span>。那怎么衡量"纯不纯"呢？两种主流方法：</p>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(this,'tab-gini')">&#127922; 基尼指数 Gini</button>
+    <button class="tab-btn" onclick="switchTab(this,'tab-entropy')">&#128214; 信息熵 Entropy</button>
+    <button class="tab-btn" onclick="switchTab(this,'tab-compare')">&#128200; 直观对比</button>
+  </div>
+
+  <!-- TAB: GINI -->
+  <div id="tab-gini" class="tab-panel active">
+    <h4 style="color:var(--primary);margin-bottom:12px;">基尼指数 (Gini Index)</h4>
+    <p>基尼指数来源于经济学中的基尼系数，用来衡量<strong>"从节点中随机抽两个样本，它们类别不一致的概率"</strong>。</p>
+    <div class="formula-box">
+      $$\text{Gini}(t) = 1 - \sum_{j=1}^{C} \left[ p(j|t) \right]^2 = 1 - \sum_{j=1}^{C} \left( \frac{n_j}{n} \right)^2$$
+      <p class="formula-caption">$p(j|t)$ = 节点 $t$ 中第 $j$ 类的样本占比 | $n_j$ = 第 $j$ 类样本数 | $n$ = 节点总样本数 | $C$ = 类别数</p>
+    </div>
+    <div class="key-point">
+      <p><strong>取值范围：</strong>$0 \leq \text{Gini}(t) \leq 1 - \frac{1}{C}$</p>
+      <p><strong>Gini = 0：</strong>节点"完全纯净"，所有样本属于同一类（最理想）</p>
+      <p><strong>Gini 越大：</strong>节点越"混乱"，各类别混杂越严重</p>
+    </div>
+    <p><strong>计算示例：</strong>假设某节点有10个贷款申请，7个"批准"、3个"拒绝"：</p>
+    <div class="formula-box">
+      $$\text{Gini}(t) = 1 - \left( \frac{7}{10} \right)^2 - \left( \frac{3}{10} \right)^2 = 1 - 0.49 - 0.09 = 0.42$$
+    </div>
+    <p>这意味着：从此节点随机抽两个人，有 <strong>42%</strong> 的概率他们属于不同类别。</p>
+  </div>
+
+  <!-- TAB: ENTROPY -->
+  <div id="tab-entropy" class="tab-panel">
+    <h4 style="color:var(--primary);margin-bottom:12px;">信息熵 (Information Entropy)</h4>
+    <p>信息熵来自信息论，由香农提出，衡量<strong>"节点中的不确定性/混乱程度"</strong>。熵越大，说明越"杂乱无章"。</p>
+    <div class="formula-box">
+      $$\text{Entropy}(t) = -\sum_{j=1}^{C} p(j|t) \cdot \log_2 p(j|t)$$
+      <p class="formula-caption">$p(j|t)$ = 节点 $t$ 中第 $j$ 类的样本占比（约定 $0 \cdot \log 0 = 0$）</p>
+    </div>
+    <div class="key-point">
+      <p><strong>取值范围：</strong>$0 \leq \text{Entropy}(t) \leq \log_2 C$</p>
+      <p><strong>Entropy = 0：</strong>节点完全纯净，没有任何不确定性</p>
+      <p><strong>Entropy 最大：</strong>各类别均匀分布，不确定性最大</p>
+    </div>
+    <p><strong>同样的例子</strong>（7个批准、3个拒绝）：</p>
+    <div class="formula-box">
+      $$\text{Entropy}(t) = -\frac{7}{10}\log_2\frac{7}{10} - \frac{3}{10}\log_2\frac{3}{10} \approx 0.7 \times 0.515 + 0.3 \times 1.737 \approx 0.881$$
+    </div>
+
+    <h5 style="margin-top:24px;color:var(--primary);">&#10132; 信息增益 (Information Gain)</h5>
+    <p>有了熵，我们就能定义<strong>信息增益</strong>：特征 $A$ 带来的"不确定性减少量"。</p>
+    <div class="formula-box">
+      $$\text{Gain}(S, A) = \text{Entropy}(S) - \sum_{v \in \text{Values}(A)} \frac{|S_v|}{|S|} \cdot \text{Entropy}(S_v)$$
+      <p class="formula-caption">$S$ = 父节点样本集 | $A$ = 待评估特征 | $S_v$ = 特征 $A$ 取值为 $v$ 的子集 | $|S_v|/|S|$ = 权重</p>
+    </div>
+    <p>信息增益越大，说明用特征 $A$ 来分裂的效果越好！这正是 <strong>ID3算法</strong> 的核心选择标准。</p>
+
+    <h5 style="margin-top:24px;color:var(--primary);">&#10132; 信息增益率 (Gain Ratio)</h5>
+    <p>信息增益有个缺点：偏爱取值多的特征（比如"身份证号"每个值都不同，增益极高但无意义）。<strong>C4.5算法</strong>用增益率来修正：</p>
+    <div class="formula-box">
+      $$\text{GainRatio}(S, A) = \frac{\text{Gain}(S, A)}{\text{SplitInfo}(A)}$$
+      <p class="formula-caption">其中 $\text{SplitInfo}(A) = -\sum_{v} \frac{|S_v|}{|S|} \log_2 \frac{|S_v|}{|S|}$，即分裂信息，衡量特征 $A$ 本身的"分散程度"。</p>
+    </div>
+  </div>
+
+  <!-- TAB: COMPARE -->
+  <div id="tab-compare" class="tab-panel">
+    <h4 style="color:var(--primary);margin-bottom:12px;">基尼指数 vs 信息熵 对比一览</h4>
+    <table class="compare-table">
+      <tr><th>对比维度</th><th>基尼指数 (Gini)</th><th>信息熵 (Entropy)</th></tr>
+      <tr><td>来源</td><td>经济学</td><td>信息论 (香农)</td></tr>
+      <tr><td>衡量本质</td><td>"随机抽两个样本类别不同的概率"</td><td>"节点的不确定程度"</td></tr>
+      <tr><td>纯净时取值</td><td>0</td><td>0</td></tr>
+      <tr><td>计算复杂度</td><td><span class="tag gini">较低</span>（无对数运算）</td><td><span class="tag entropy">较高</span>（含对数）</td></tr>
+      <tr><td>常用算法</td><td><span class="tag gini">CART</span></td><td><span class="tag entropy">ID3, C4.5</span></td></tr>
+      <tr><td>对"纯度"敏感度</td><td>偏向选择<strong>最大的子节点</strong></td><td>对不纯度变化<strong>更敏感</strong></td></tr>
+      <tr><td>实际效果</td><td colspan="2" style="text-align:center;font-style:italic;color:var(--text-light);">两者在大多数数据集上效果相近，Gini计算更快</td></tr>
+    </table>
+
+    <div class="key-point">
+      <p><strong>&#128161; 小提示：</strong>如果你看到 sklearn 的 DecisionTreeClassifier，默认参数是 'gini'。这不是因为Gini一定更好，而是因为它<strong>计算更快</strong>，在大数据集上有优势。对于初学者，两种都可以放心使用！</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ RECURSIVE PARTITIONING ============ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">&#128260;</span>
+    递归分区原理：树是怎么"长"出来的？
+  </div>
+  <p>决策树的构建过程本质上是一个<strong>递归分区（Recursive Partitioning）</strong>的过程。简单来说就是：<em>先切一刀，看两边纯不纯；不纯就继续切，直到够纯为止。</em></p>
+
+  <div class="collapse-header" onclick="toggleCollapse(this)">
+    <h4>&#128220; 点击展开：递归分区完整伪代码 + 推导</h4>
+    <span class="collapse-icon">&#9660;</span>
+  </div>
+  <div class="collapse-body">
+    <div class="code-block">
+<span class="cm"># CART分类树：递归分区算法</span>
+<span class="kw">def</span> <span class="fn">build_tree</span>(<span class="var">node</span>, <span class="var">data</span>, <span class="var">features</span>):
+    <span class="cm"># 1. 终止条件检查</span>
+    <span class="kw">if</span> 节点中所有样本属于同一类别:
+        <span class="kw">return</span> 叶节点(标记为该类别)
+    <span class="kw">if</span> 没有可用特征 或 样本数少于阈值:
+        <span class="kw">return</span> 叶节点(多数投票决定类别)
+
+    <span class="cm"># 2. 寻找最佳分裂</span>
+    best_gini_reduction = -∞
+    <span class="kw">for</span> 每个特征 f <span class="kw">in</span> features:
+        <span class="kw">for</span> 每个可能的切分点 s:
+            将 data 按 f 和 s 分成左右两部分: D_left, D_right
+            计算基尼指数减少量:
+                ΔGini = Gini(父) - [n_left/n × Gini(左) + n_right/n × Gini(右)]
+            <span class="kw">if</span> ΔGini > best_gini_reduction:
+                best_gini_reduction = ΔGini
+                best_feature = f
+                best_split = s
+
+    <span class="cm"># 3. 执行分裂并递归</span>
+    创建内部节点(best_feature, best_split)
+    按 best_split 将 data 分为 D_left, D_right
+    node.left  = build_tree(D_left,  features - {best_feature?})
+    node.right = build_tree(D_right, features - {best_feature?})
+    <span class="kw">return</span> node
+    </div>
+
+    <h5 style="color:var(--primary);margin:20px 0 12px;">&#128290; 基尼指数减少量的数学推导</h5>
+    <p>CART算法每次分裂的目标是：<strong>最大化基尼指数的减少量</strong>。公式如下：</p>
+    <div class="formula-box">
+      $$\Delta\text{Gini}(A) = \text{Gini}(\text{父}) - \left[ \frac{n_{\text{left}}}{n} \cdot \text{Gini}(\text{左}) + \frac{n_{\text{right}}}{n} \cdot \text{Gini}(\text{右}) \right]$$
+      <p class="formula-caption">$n_{\text{left}}$, $n_{\text{right}}$ = 左右子节点的样本数 | $n$ = 父节点总样本数</p>
+    </div>
+    <p>等式右边括号内是<strong>加权平均</strong>的子节点基尼指数——用子节点样本量占总样本的比例作为权重。我们要让这个减少量尽可能大，等价于让子节点的加权基尼尽可能小。</p>
+
+    <h5 style="color:var(--primary);margin:20px 0 12px;">&#128290; 完整计算示例</h5>
+    <p>假设父节点有 100 个样本（60个"批准"、40个"拒绝"），按"月收入≥1万"分裂：</p>
+    <ul style="margin:10px 0;padding-left:24px;">
+      <li>左子节点（≥1万）：70个样本，其中 55个批准、15个拒绝</li>
+      <li>右子节点（&lt;1万）：30个样本，其中 5个批准、25个拒绝</li>
+    </ul>
+    <p><strong>Step 1 - 父节点基尼：</strong></p>
+    <div class="formula-box">
+      $$\text{Gini}(\text{父}) = 1 - \left(\frac{60}{100}\right)^2 - \left(\frac{40}{100}\right)^2 = 1 - 0.36 - 0.16 = 0.48$$
+    </div>
+    <p><strong>Step 2 - 左子节点基尼：</strong></p>
+    <div class="formula-box">
+      $$\text{Gini}(\text{左}) = 1 - \left(\frac{55}{70}\right)^2 - \left(\frac{15}{70}\right)^2 = 1 - 0.617 - 0.046 = 0.337$$
+    </div>
+    <p><strong>Step 3 - 右子节点基尼：</strong></p>
+    <div class="formula-box">
+      $$\text{Gini}(\text{右}) = 1 - \left(\frac{5}{30}\right)^2 - \left(\frac{25}{30}\right)^2 = 1 - 0.028 - 0.694 = 0.278$$
+    </div>
+    <p><strong>Step 4 - 基尼减少量：</strong></p>
+    <div class="formula-box">
+      $$\Delta\text{Gini} = 0.48 - \left[ \frac{70}{100} \times 0.337 + \frac{30}{100} \times 0.278 \right] = 0.48 - [0.236 + 0.083] = 0.161$$
+    </div>
+    <p>CART会遍历<strong>所有特征和所有切分点</strong>，选择使 $\Delta\text{Gini}$ 最大的那个分裂方案。</p>
+  </div>
+</div>
+
+<!-- ============ INTERACTIVE DEMO ============ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">&#127922;</span>
+    交互实验：动手选一个最佳切分点！
+  </div>
+  <p>下面有 10 份贷款申请的数据。你可以选择一个特征和切分点，看看<strong>实时计算</strong>的基尼指数变化：</p>
+
+  <div class="demo-container">
+    <h5 style="color:var(--primary);margin-bottom:12px;">&#128203; 贷款申请数据集</h5>
+    <div style="overflow-x:auto;">
+      <table class="dataset-table" id="dataTable">
+        <tr>
+          <th>编号</th><th>月收入(万)</th><th>信用评分</th><th>有房产</th><th>审批结果</th>
+        </tr>
+        <tr><td>1</td><td>1.5</td><td>750</td><td>是</td><td style="color:#2E7D32;font-weight:600;">批准</td></tr>
+        <tr><td>2</td><td>0.8</td><td>600</td><td>否</td><td style="color:#C62828;font-weight:600;">拒绝</td></tr>
+        <tr><td>3</td><td>1.2</td><td>680</td><td>是</td><td style="color:#2E7D32;font-weight:600;">批准</td></tr>
+        <tr><td>4</td><td>0.6</td><td>720</td><td>否</td><td style="color:#C62828;font-weight:600;">拒绝</td></tr>
+        <tr><td>5</td><td>2.0</td><td>800</td><td>是</td><td style="color:#2E7D32;font-weight:600;">批准</td></tr>
+        <tr><td>6</td><td>0.9</td><td>550</td><td>否</td><td style="color:#C62828;font-weight:600;">拒绝</td></tr>
+        <tr><td>7</td><td>1.8</td><td>780</td><td>是</td><td style="color:#2E7D32;font-weight:600;">批准</td></tr>
+        <tr><td>8</td><td>0.5</td><td>620</td><td>否</td><td style="color:#C62828;font-weight:600;">拒绝</td></tr>
+        <tr><td>9</td><td>1.1</td><td>710</td><td>是</td><td style="color:#2E7D32;font-weight:600;">批准</td></tr>
+        <tr><td>10</td><td>0.7</td><td>580</td><td>否</td><td style="color:#C62828;font-weight:600;">拒绝</td></tr>
+      </table>
+    </div>
+
+    <div class="split-controls">
+      <label style="font-weight:500;">选择特征：</label>
+      <select id="featureSelect" onchange="updateSplitOptions()">
+        <option value="income">月收入(万)</option>
+        <option value="credit">信用评分</option>
+        <option value="house">有房产</option>
+      </select>
+      <label style="font-weight:500;">切分点：</label>
+      <select id="splitSelect">
+        <option value="1.0">≥ 1.0</option>
+        <option value="1.3">≥ 1.3</option>
+      </select>
+      <button class="btn" onclick="calculateGini()">计算基尼指数</button>
+      <button class="btn secondary" onclick="showBestSplit()">显示最佳切分</button>
+    </div>
+
+    <div id="resultPanel" class="result-panel" style="display:none;">
+      <h5>&#128202; 计算结果</h5>
+      <div class="gini-bar">
+        <span class="bar-label">父节点 Gini</span>
+        <div class="bar-track"><div id="bar-parent" class="bar-fill medium" style="width:50%"></div></div>
+        <span id="val-parent" style="font-weight:600;min-width:50px;">0.50</span>
+      </div>
+      <div class="gini-bar">
+        <span class="bar-label">左子树 Gini</span>
+        <div class="bar-track"><div id="bar-left" class="bar-fill" style="width:30%"></div></div>
+        <span id="val-left" style="font-weight:600;min-width:50px;">-</span>
+      </div>
+      <div class="gini-bar">
+        <span class="bar-label">右子树 Gini</span>
+        <div class="bar-track"><div id="bar-right" class="bar-fill" style="width:30%"></div></div>
+        <span id="val-right" style="font-weight:600;min-width:50px;">-</span>
+      </div>
+      <hr style="border:none;border-top:1px solid var(--border);margin:12px 0;">
+      <div class="gini-bar">
+        <span class="bar-label" style="color:var(--primary);">&#9660; Gini减少量</span>
+        <div class="bar-track"><div id="bar-delta" class="bar-fill good" style="width:0%"></div></div>
+        <span id="val-delta" style="font-weight:700;color:var(--primary);min-width:50px;">-</span>
+      </div>
+      <div id="resultComment" style="margin-top:16px;padding:12px;background:var(--primary-light);border-radius:var(--radius-sm);font-size:0.9rem;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CART ALGORITHM FLOWCHART ============ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">&#128214;</span>
+    CART 分类树算法完整流程
+  </div>
+  <p>CART（Classification and Regression Trees）是最常用的决策树算法之一。以下是分类树的完整构建流程：</p>
+
+  <div class="flowchart">
+    <div class="flow-step start">
+      <span class="step-num">1</span>
+      <div class="step-content">
+        <h5>初始化根节点</h5>
+        <p>将所有训练样本放入根节点，标记当前节点为"待分裂"</p>
+      </div>
+    </div>
+    <div class="flow-arrow">&#11015;</div>
+    <div class="flow-step decision">
+      <span class="step-num">2</span>
+      <div class="step-content">
+        <h5>检查终止条件</h5>
+        <p>节点是否纯净？/ 样本数是否过少？/ 树深是否超限？/ 无可用特征？</p>
+      </div>
+    </div>
+    <div class="flow-arrow">&#11015;</div>
+    <div class="flow-step process">
+      <span class="step-num">3</span>
+      <div class="step-content">
+        <h5>若满足终止 → 标记为叶节点</h5>
+        <p>按多数投票确定该叶节点的预测类别</p>
+      </div>
+    </div>
+    <div class="flow-arrow" style="color:var(--accent);">&#8645; 否则继续</div>
+    <div class="flow-step process">
+      <span class="step-num">4</span>
+      <div class="step-content">
+        <h5>遍历所有特征 × 所有切分点</h5>
+        <p>对连续特征排序后取相邻值的中点作为候选切分点</p>
+      </div>
+    </div>
+    <div class="flow-arrow">&#11015;</div>
+    <div class="flow-step process">
+      <span class="step-num">5</span>
+      <div class="step-content">
+        <h5>计算每个候选分裂的基尼减少量</h5>
+        <p>$\Delta\text{Gini} = \text{Gini(父)} - \text{加权Gini(子)}$</p>
+      </div>
+    </div>
+    <div class="flow-arrow">&#11015;</div>
+    <div class="flow-step decision">
+      <span class="step-num">6</span>
+      <div class="step-content">
+        <h5>选择使 $ \Delta\text{Gini} $ 最大的分裂方案</h5>
+        <p>记录最佳特征和最佳切分点</p>
+      </div>
+    </div>
+    <div class="flow-arrow">&#11015;</div>
+    <div class="flow-step process">
+      <span class="step-num">7</span>
+      <div class="step-content">
+        <h5>执行分裂，生成左右两个子节点</h5>
+        <p>将样本按切分条件分配到左/右子树</p>
+      </div>
+    </div>
+    <div class="flow-arrow">&#11015;</div>
+    <div class="flow-step process">
+      <span class="step-num">8</span>
+      <div class="step-content">
+        <h5>对每个子节点递归执行 Step 2-7</h5>
+        <p>回到终止条件检查，继续"生长"</p>
+      </div>
+    </div>
+    <div class="flow-arrow">&#11015;</div>
+    <div class="flow-step end">
+      <span class="step-num">9</span>
+      <div class="step-content">
+        <h5>所有节点处理完毕 → 输出完整决策树</h5>
+        <p>可用于预测新样本的类别！</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-point">
+    <p><strong>&#128161; 核心要点：</strong>CART分类树 = 二叉树结构 + 基尼指数 + 递归分区 + 贪心策略。它每次只找"当前最好的分裂"，不保证全局最优，但计算高效、结果可解释性强！</p>
+  </div>
+</div>
+
+<!-- ============ PRUNING ============ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">&#9986;</span>
+    剪枝基础：防止树"长得太疯"
+  </div>
+  <p>决策树有一个致命弱点——如果不加限制，它会一直长下去，直到每个叶节点只剩一个样本。这会导致<strong>过拟合</strong>：在训练数据上表现完美，但遇到新数据就"抓瞎"。</p>
+  <p style="margin-top:12px;"><strong>剪枝（Pruning）</strong>就像给树"理发"，把过度生长的枝叶剪掉，让树更简洁、更通用。</p>
+
+  <div class="pruning-visual">
+    <div class="prune-box before">
+      <h5 style="color:var(--danger);">&#127795; 剪枝前（过拟合）</h5>
+      <svg width="160" height="140" viewBox="0 0 160 140">
+        <line x1="80" y1="20" x2="40" y2="50" stroke="#999" stroke-width="2"/>
+        <line x1="80" y1="20" x2="120" y2="50" stroke="#999" stroke-width="2"/>
+        <line x1="40" y1="50" x2="20" y2="80" stroke="#999" stroke-width="2"/>
+        <line x1="40" y1="50" x2="60" y2="80" stroke="#999" stroke-width="2"/>
+        <line x1="120" y1="50" x2="100" y2="80" stroke="#999" stroke-width="2"/>
+        <line x1="120" y1="50" x2="140" y2="80" stroke="#999" stroke-width="2"/>
+        <line x1="20" y1="80" x2="10" y2="110" stroke="#999" stroke-width="1.5"/>
+        <line x1="20" y1="80" x2="30" y2="110" stroke="#999" stroke-width="1.5"/>
+        <line x1="60" y1="80" x2="50" y2="110" stroke="#999" stroke-width="1.5"/>
+        <line x1="60" y1="80" x2="70" y2="110" stroke="#999" stroke-width="1.5"/>
+        <circle cx="80" cy="20" r="14" fill="#C8E6C9" stroke="#66BB6A" stroke-width="2"/>
+        <circle cx="40" cy="50" r="12" fill="#BBDEFB" stroke="#42A5F5" stroke-width="1.5"/>
+        <circle cx="120" cy="50" r="12" fill="#BBDEFB" stroke="#42A5F5" stroke-width="1.5"/>
+        <circle cx="20" cy="80" r="10" fill="#BBDEFB" stroke="#42A5F5" stroke-width="1.5"/>
+        <circle cx="60" cy="80" r="10" fill="#BBDEFB" stroke="#42A5F5" stroke-width="1.5"/>
+        <circle cx="100" cy="80" r="10" fill="#FFCDD2" stroke="#EF5350" stroke-width="1.5"/>
+        <circle cx="140" cy="80" r="10" fill="#FFCDD2" stroke="#EF5350" stroke-width="1.5"/>
+        <circle cx="10" cy="110" r="8" fill="#FFCDD2" stroke="#EF5350" stroke-width="1"/>
+        <circle cx="30" cy="110" r="8" fill="#C8E6C9" stroke="#66BB6A" stroke-width="1"/>
+        <circle cx="50" cy="110" r="8" fill="#FFCDD2" stroke="#EF5350" stroke-width="1"/>
+        <circle cx="70" cy="110" r="8" fill="#C8E6C9" stroke="#66BB6A" stroke-width="1"/>
+      </svg>
+      <p style="font-size:0.85rem;color:var(--text-light);">层数深、叶节点多<br>训练集表现完美<br>但泛化能力差</p>
+    </div>
+    <div class="prune-arrow">&#10132;</div>
+    <div class="prune-box after">
+      <h5 style="color:var(--primary);">&#127795; 剪枝后（更通用）</h5>
+      <svg width="160" height="140" viewBox="0 0 160 140">
+        <line x1="80" y1="30" x2="40" y2="70" stroke="#5B8C5A" stroke-width="2.5"/>
+        <line x1="80" y1="30" x2="120" y2="70" stroke="#5B8C5A" stroke-width="2.5"/>
+        <line x1="40" y1="70" x2="20" y2="110" stroke="#5B8C5A" stroke-width="2"/>
+        <line x1="40" y1="70" x2="60" y2="110" stroke="#5B8C5A" stroke-width="2"/>
+        <circle cx="80" cy="30" r="16" fill="#C8E6C9" stroke="#43A047" stroke-width="2.5"/>
+        <circle cx="40" cy="70" r="14" fill="#BBDEFB" stroke="#1E88E5" stroke-width="2"/>
+        <circle cx="120" cy="70" r="14" fill="#FFCDD2" stroke="#E53935" stroke-width="2"/>
+        <circle cx="20" cy="110" r="12" fill="#C8E6C9" stroke="#43A047" stroke-width="1.5"/>
+        <circle cx="60" cy="110" r="12" fill="#FFCDD2" stroke="#E53935" stroke-width="1.5"/>
+      </svg>
+      <p style="font-size:0.85rem;color:var(--text-light);">层数适中、叶节点少<br>模型更简洁<br>泛化能力更强</p>
+    </div>
+  </div>
+
+  <h5 style="color:var(--primary);margin:20px 0 12px;">&#9986; 两种剪枝策略</h5>
+  <table class="compare-table">
+    <tr><th>策略</th><th>时机</th><th>方式</th><th>特点</th></tr>
+    <tr>
+      <td><strong>预剪枝</strong><br>(Pre-pruning)</td>
+      <td>树<strong>生长过程中</strong></td>
+      <td>设定限制：最大深度、最小叶样本数、最小基尼减少量阈值等</td>
+      <td><span class="tag gini">速度快</span> 但可能"剪太早"</td>
+    </tr>
+    <tr>
+      <td><strong>后剪枝</strong><br>(Post-pruning)</td>
+      <td>树<strong>完全长成后</strong></td>
+      <td>自底向上合并子树，若合并后验证集准确率不下降则剪</td>
+      <td><span class="tag entropy">效果更好</span> 但计算更多</td>
+    </tr>
+  </table>
+
+  <div class="key-point">
+    <p><strong>&#128161; 类比理解：</strong>预剪枝就像种树时搭个支架限制高度；后剪枝就像让树自由生长，然后再修剪成型。实际中，sklearn的 DecisionTreeClassifier 主要通过预剪枝参数（max_depth, min_samples_leaf 等）来控制树的复杂度。</p>
+  </div>
+</div>
+
+<!-- ============ SUMMARY ============ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">&#128221;</span>
+    本周小结
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <span style="background:var(--primary);color:white;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;">1</span>
+      <p><strong>决策树结构：</strong>根节点（开场提问）→ 内部节点（层层追问）→ 叶节点（给出结论），是一个自上而下的二叉树结构。</p>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <span style="background:var(--primary);color:white;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;">2</span>
+      <p><strong>不纯度度量：</strong>基尼指数（Gini）和信息熵（Entropy）是两种主流度量方式。值越小表示节点越"纯净"。CART默认使用Gini。</p>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <span style="background:var(--primary);color:white;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;">3</span>
+      <p><strong>递归分区：</strong>决策树通过不断选择"最佳分裂特征+切分点"来生长，目标是最小化子节点的不纯度（或最大化基尼减少量）。</p>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <span style="background:var(--primary);color:white;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;">4</span>
+      <p><strong>剪枝：</strong>为防止过拟合，需要通过预剪枝（生长中限制）或后剪枝（生长后修剪）来控制树的复杂度。</p>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <span style="background:var(--primary);color:white;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0;">5</span>
+      <p><strong>算法家族：</strong>ID3（信息增益）→ C4.5（增益率）→ CART（基尼指数），这是决策树发展的"三驾马车"。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QUIZ ============ -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">&#10067;</span>
+    课后思考题
+  </div>
+  <ol class="quiz-list">
+    <li>假设某叶节点有8个样本，6个属于A类、2个属于B类。请分别计算该节点的基尼指数和信息熵，并解释两个指标的数值含义。</li>
+    <li>在CART算法中，为什么要遍历"所有特征的所有切分点"？如果某个特征有100个不同取值，最多有多少个候选切分点？</li>
+    <li>信息增益偏爱取值多的特征，这是什么意思？为什么信息增益率能解决这个问题？请举例说明。</li>
+    <li>对比预剪枝和后剪枝：如果你正在处理一个10万样本的数据集，时间有限，你会选择哪种策略？为什么？</li>
+    <li>在银行信贷场景中，决策树的"可解释性"为什么比神经网络更有优势？请从业务人员和监管机构两个角度分析。</li>
+    <li>（拓展）查资料了解：随机森林（Random Forest）是如何利用"多棵决策树"来提升预测效果的？它与单棵决策树的优缺点对比是什么？</li>
+  </ol>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div style="text-align:center;padding:30px 20px;color:var(--text-light);font-size:0.85rem;">
+  <p>《金融科技》课程 · 第6周理论教学 · 决策树基础</p>
+  <p style="margin-top:6px;">© 2025 金融科技教研室</p>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ====== Tree Annotation ======
+let currentAnno = null;
+function showAnno(type) {
+  // Hide all panels
+  document.querySelectorAll('.anno-panel').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('.tree-node').forEach(n => n.classList.remove('active'));
+
+  // Map type to panel ID
+  let panelId = null;
+  if (type === 'root') panelId = 'anno-root';
+  else if (type === 'internal1') panelId = 'anno-internal';
+  else if (type === 'internal2') panelId = 'anno-internal2';
+  else if (type === 'leaf') panelId = 'anno-leaf';
+
+  if (panelId) {
+    const panel = document.getElementById(panelId);
+    if (currentAnno === panelId) {
+      currentAnno = null; // toggle off
+      return;
+    }
+    panel.classList.add('show');
+    currentAnno = panelId;
+    // Highlight clicked node
+    event.target.closest('.tree-node').classList.add('active');
+  }
+}
+
+// ====== Tab Switching ======
+function switchTab(btn, panelId) {
+  // Update buttons
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Update panels
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ====== Collapsible ======
+function toggleCollapse(header) {
+  const body = header.nextElementSibling;
+  const icon = header.querySelector('.collapse-icon');
+  body.classList.toggle('open');
+  icon.classList.toggle('open');
+}
+
+// ====== Interactive Gini Demo ======
+const dataset = [
+  { id: 1, income: 1.5, credit: 750, house: 1, label: 1 },
+  { id: 2, income: 0.8, credit: 600, house: 0, label: 0 },
+  { id: 3, income: 1.2, credit: 680, house: 1, label: 1 },
+  { id: 4, income: 0.6, credit: 720, house: 0, label: 0 },
+  { id: 5, income: 2.0, credit: 800, house: 1, label: 1 },
+  { id: 6, income: 0.9, credit: 550, house: 0, label: 0 },
+  { id: 7, income: 1.8, credit: 780, house: 1, label: 1 },
+  { id: 8, income: 0.5, credit: 620, house: 0, label: 0 },
+  { id: 9, income: 1.1, credit: 710, house: 1, label: 1 },
+  { id: 10, income: 0.7, credit: 580, house: 0, label: 0 },
+];
+
+function calcGini(labels) {
+  const n = labels.length;
+  if (n === 0) return 0;
+  const counts = {};
+  labels.forEach(l => { counts[l] = (counts[l] || 0) + 1; });
+  let gini = 1;
+  for (const c in counts) {
+    const p = counts[c] / n;
+    gini -= p * p;
+  }
+  return gini;
+}
+
+function updateSplitOptions() {
+  const feature = document.getElementById('featureSelect').value;
+  const splitSelect = document.getElementById('splitSelect');
+  splitSelect.innerHTML = '';
+
+  if (feature === 'income') {
+    splitSelect.add(new Option('≥ 0.75', '0.75'));
+    splitSelect.add(new Option('≥ 1.0', '1.0'));
+    splitSelect.add(new Option('≥ 1.15', '1.15'));
+    splitSelect.add(new Option('≥ 1.5', '1.5'));
+  } else if (feature === 'credit') {
+    splitSelect.add(new Option('≥ 600', '600'));
+    splitSelect.add(new Option('≥ 650', '650'));
+    splitSelect.add(new Option('≥ 700', '700'));
+    splitSelect.add(new Option('≥ 750', '750'));
+  } else if (feature === 'house') {
+    splitSelect.add(new Option('= 是', '1'));
+    splitSelect.add(new Option('= 否', '0'));
+  }
+}
+
+function calculateGini() {
+  const feature = document.getElementById('featureSelect').value;
+  const splitVal = parseFloat(document.getElementById('splitSelect').value);
+
+  let left = [], right = [];
+  if (feature === 'house') {
+    left = dataset.filter(d => d.house === splitVal);
+    right = dataset.filter(d => d.house !== splitVal);
+  } else {
+    left = dataset.filter(d => d[feature] >= splitVal);
+    right = dataset.filter(d => d[feature] < splitVal);
+  }
+
+  const giniParent = calcGini(dataset.map(d => d.label));
+  const giniLeft = calcGini(left.map(d => d.label));
+  const giniRight = calcGini(right.map(d => d.label));
+  const n = dataset.length;
+  const nL = left.length, nR = right.length;
+  const weightedGini = (nL / n) * giniLeft + (nR / n) * giniRight;
+  const deltaGini = giniParent - weightedGini;
+
+  // Show panel
+  const panel = document.getElementById('resultPanel');
+  panel.style.display = 'block';
+
+  // Update bars
+  setBar('bar-parent', 'val-parent', giniParent);
+  setBar('bar-left', 'val-left', giniLeft);
+  setBar('bar-right', 'val-right', giniRight);
+  setBar('bar-delta', 'val-delta', deltaGini, true);
+
+  // Comment
+  const featNames = { income: '月收入≥' + splitVal + '万', credit: '信用评分≥' + splitVal, house: (splitVal === 1 ? '有房产' : '无房产') };
+  const comment = document.getElementById('resultComment');
+  let quality = '';
+  if (deltaGini > 0.3) quality = '这是一个<strong style="color:#2E7D32;">非常理想</strong>的分裂！子节点变得很纯净。';
+  else if (deltaGini > 0.15) quality = '分裂效果<strong style="color:#F57C00;">还不错</strong>，可以继续尝试其他切分点对比。';
+  else quality = '分裂效果<strong style="color:#C62828;">一般</strong>，基尼减少量较小，可能需要换特征或切分点。';
+
+  comment.innerHTML = `
+    按 <strong>${featNames[feature]}</strong> 分裂：<br>
+    左子树 ${nL} 个样本（${left.filter(d=>d.label===1).length}批准 / ${left.filter(d=>d.label===0).length}拒绝）
+    | 右子树 ${nR} 个样本（${right.filter(d=>d.label===1).length}批准 / ${right.filter(d=>d.label===0).length}拒绝）<br>
+    ${quality}
+  `;
+}
+
+function setBar(barId, valId, val, isDelta) {
+  const bar = document.getElementById(barId);
+  const valEl = document.getElementById(valId);
+  const pct = Math.min(val * 200, 100); // scale for visual
+  bar.style.width = pct + '%';
+  valEl.textContent = val.toFixed(3);
+
+  bar.className = 'bar-fill';
+  if (isDelta) {
+    bar.classList.add('good');
+  } else if (val < 0.25) {
+    bar.classList.add('good');
+  } else if (val < 0.5) {
+    bar.classList.add('medium');
+  } else {
+    bar.classList.add('bad');
+  }
+}
+
+function showBestSplit() {
+  // Pre-computed best: income >= 1.0
+  document.getElementById('featureSelect').value = 'income';
+  updateSplitOptions();
+  document.getElementById('splitSelect').value = '1.0';
+  calculateGini();
+  document.getElementById('resultComment').innerHTML += '<br><strong style="color:var(--primary);">这是本数据集的最佳切分点！基尼减少量最大。</strong>';
+}
+
+// Initialize
+updateSplitOptions();
+</script>
+
+</body>
+</html>
