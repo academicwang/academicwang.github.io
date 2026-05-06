@@ -602,7 +602,10 @@
 <footer class="site-footer"><div class="container"><p>© 2026 Qi Wang · Associate Professor</p></div></footer>
 
 <script>
-  const COURSE_PASSWORD = "scu@2026"; 
+  const COURSE_PASSWORDS = {
+    "scu@2026": ["scu@2026"],
+    "ACCA@2027": ["acca-f3/"]
+  };
 
   function requirePassword(event, targetUrl, targetWindow) {
     event.preventDefault();
@@ -611,10 +614,11 @@
       return;
     }
     let pwd = prompt("请输入课程密码以继续：\nPlease enter the password:");
-    if (pwd === COURSE_PASSWORD) {
+    if (pwd === null) return;
+    if (pwd === "scu@2026" || (pwd === "ACCA@2027" && targetUrl.startsWith("acca-f3/"))) {
       if (targetWindow === '_blank') window.open(targetUrl, '_blank');
       else window.location.href = targetUrl;
-    } else if (pwd !== null) {
+    } else {
       alert("密码错误！\nIncorrect password.");
     }
   }
